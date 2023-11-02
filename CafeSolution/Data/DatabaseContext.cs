@@ -29,8 +29,23 @@ public class DatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseLazyLoadingProxies()
+            //.UseLazyLoadingProxies()
             .UseMySql("server=;user=root;password=;database=ShareFood;", 
                 new MySqlServerVersion(new Version(8, 2, 0)));
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.ContractScan).HasMaxLength(2083);
+            entity.Property(e => e.Photo).HasMaxLength(2083);
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Document)
+                .HasForeignKey<Document>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Documents_ibfk_1");
+        });
     }
 }

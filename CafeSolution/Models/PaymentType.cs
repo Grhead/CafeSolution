@@ -1,9 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CafeSolution.Models;
 
-public class PaymentType
+public partial class PaymentType
 {
     public int Id { get; set; }
-    public string Title { get; set; }
-    
-    public virtual Order Order { get; set; }
+
+    public string Title { get; set; } = null!;
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

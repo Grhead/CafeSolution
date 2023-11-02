@@ -16,7 +16,7 @@ public class MainWindowViewModel : ViewModelBase
         Role role3 = new Role { Title = "waiter" };
 
         db.Roles.AddRange(role1, role2, role3);
-        var rowCount = db.SaveChanges();
-        return rowCount;
+        db.SaveChanges();
+        return 101;
     }
 }
