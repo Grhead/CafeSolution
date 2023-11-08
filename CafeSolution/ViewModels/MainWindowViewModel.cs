@@ -1,22 +1,26 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using CafeSolution.Data;
 using CafeSolution.Models;
+using CafeSolution.ConfigClasses;
 
 namespace CafeSolution.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => Convert.ToString(Test())+"IDCON";
+    public string Greeting => Test();
 
-    private int Test()
+    private string Test()
     {
         DatabaseContext db = new DatabaseContext();
-        Role role1 = new Role { Title = "admin" };
-        Role role2 = new Role { Title = "chef" };
-        Role role3 = new Role { Title = "waiter" };
-
-        db.Roles.AddRange(role1, role2, role3);
-        db.SaveChanges();
-        return 101;
+        // Role role1 = new Role { Title = "admin12" };
+        // Role role2 = new Role { Title = "chef12" };
+        // Role role3 = new Role { Title = "waiter12" };
+        //
+        // db.Roles.AddRange(role1, role2, role3);
+        // db.SaveChanges();
+        var qwe = db.Roles.FirstOrDefault(x => x.Id == 4).Title;
+        return qwe;
     }
 }

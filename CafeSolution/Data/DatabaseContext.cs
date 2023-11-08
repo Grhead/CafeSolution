@@ -1,4 +1,5 @@
 using System;
+using CafeSolution.ConfigClasses;
 using CafeSolution.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,9 +30,13 @@ public class DatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            //.UseLazyLoadingProxies()
-            .UseMySql("server=;user=root;password=;database=ShareFood;", 
-                new MySqlServerVersion(new Version(8, 2, 0)));
+            .UseLazyLoadingProxies()
+            .UseMySql(
+                "server=" + ConfigReader.ParseSecrets().Secrets.DbServer + ";" +
+                "user=" + ConfigReader.ParseSecrets().Secrets.DbUser + ";" +
+                "password=" + ConfigReader.ParseSecrets().Secrets.DbPassword + ";" +
+                "database=" + ConfigReader.ParseSecrets().Secrets.DbDatabase + ";",
+                new MySqlServerVersion(new Version(8, 2, 0))).LogTo(Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
