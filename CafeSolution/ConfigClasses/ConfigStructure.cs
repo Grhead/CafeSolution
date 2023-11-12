@@ -1,13 +1,5 @@
 namespace CafeSolution.ConfigClasses;
 
-// public class Player {
-//     public User User { get; set; } 
-// }
-//
-// public class User {
-//     public string Name { get; set; }
-// }
-
 public class ConfigStructure
 {
     public Secrets Secrets { get; set; }
