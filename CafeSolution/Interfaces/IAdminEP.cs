@@ -6,7 +6,7 @@ namespace CafeSolution.Interfaces;
 
 public interface IAdminEp
 {
-    List<Employee> GetEmployeesList();
+    List<EmployeeDto> GetEmployeesList();
     List<Order> GetAllOrders();
     List<Shift> GtAllShifts();
     Order GetOrder(int orderId);

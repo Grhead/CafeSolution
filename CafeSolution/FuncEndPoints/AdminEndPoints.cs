@@ -1,20 +1,40 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Packaging;
+using System.Linq;
+using CafeSolution.Data;
 using CafeSolution.DTO;
 using CafeSolution.Interfaces;
 using CafeSolution.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CafeSolution.FuncEndPoints;
 
 public class AdminEndPoints : IAdminEp
 {
-    public List<Employee> GetEmployeesList()
+    public List<EmployeeDto> GetEmployeesList()
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        List<EmployeeDto> employees = db.Employees
+            .Include(x => x.Status)
+            .Include(x => x.Role)
+            .Select(x => new EmployeeDto
+            {
+                FirstName = x.FirstName,
+                SecondName = x.SecondName,
+                LastName = x.LastName,
+                Birthday = x.Birthday,
+                Role = x.RoleNavigation.Title,
+                Status = x.StatusNavigation.Title
+                
+            }).ToList();
+        Console.WriteLine(employees);
+        return employees;
     }
 
     public List<Order> GetAllOrders()
     {
+        using DatabaseContext db = new DatabaseContext();
         throw new System.NotImplementedException();
     }
 
