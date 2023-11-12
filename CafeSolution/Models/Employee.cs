@@ -19,6 +19,10 @@ public class Employee
 
     public int Status { get; set; }
 
+    public string? Login { get; set; }
+    
+    public string? PassHash { get; set; }
+
     public virtual Document? Document { get; set; }
 
     public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new List<EmployeesAtShift>();
