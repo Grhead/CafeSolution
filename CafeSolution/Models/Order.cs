@@ -11,11 +11,11 @@ public partial class Order
 
     public int? NumberOfCustomers { get; set; }
 
-    public int PaymentStatus { get; set; }
+    public int? PaymentStatus { get; set; }
 
     public int CookingStatus { get; set; }
 
-    public int PaymentType { get; set; }
+    public int? PaymentType { get; set; }
 
     public decimal? Amount { get; set; }
 

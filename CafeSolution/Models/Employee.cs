@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CafeSolution.Models;
 
-public partial class Employee
+public class Employee
 {
     public int Id { get; set; }
 
