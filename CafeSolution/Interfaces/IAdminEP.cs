@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CafeSolution.DTO;
 using CafeSolution.Models;
 
 namespace CafeSolution.Interfaces;
@@ -14,11 +15,9 @@ public interface IAdminEp
     string GetEmployeePhoto(int employeeId);
     List<Order> GetAllOrdersPerShift(int shiftId);
     
-    //TODO change void to report type. Int also change
-    void CreateReportOrdersPerShift(int shiftId, int type);
+    //nothing to return. Bool is process result
+    bool CreateReportOrdersPerShift(int shiftId, int type);
     List<Shift> CreateShift(List<Shift> shifts, List<Employee> employees);
-
-    //TODO employee data (need DTO)
-
-    //TODO info about shift (need DTO)
+    EmployeeDto GetImEmployeeInfo(int employeeId);
+    ShiftDto GetShiftInfo(int shiftId);
 }
