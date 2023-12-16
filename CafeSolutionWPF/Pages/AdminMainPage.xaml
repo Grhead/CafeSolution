@@ -30,5 +30,33 @@
                 VerticalAlignment="Center">
             </TextBlock>
         </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center">
+            <Button
+                HorizontalAlignment="Center"
+                Content="Список сотрудников">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Список заказов">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Список смен">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Отчёт">
+            </Button>
+        </StackPanel>
+        <Frame
+            Name="AdminFrame"
+            Grid.Row="1"
+            Grid.Column="1"
+            Source=""
+            NavigationUIVisibility="Hidden">
+        </Frame>
     </Grid>
 </Page>
