@@ -12,7 +12,9 @@ public interface IAdminEp
     Order GetOrder(int orderId);
     EmployeeDto CreateEmployee(Employee employee);
     bool AddEmployeePhoto(string photo, int employeeId);
+    bool AddEmployeeScan(string photo, int employeeId);
     string GetEmployeePhoto(int employeeId);
+    string GetEmployeeScan(int employeeId);
     List<Order> GetAllOrdersPerShift(int shiftId);
     
     //nothing to return. Bool is process result

@@ -88,12 +88,60 @@ public class AdminEndPoints : IAdminEp
 
     public bool AddEmployeePhoto(string photo, int employeeId)
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        try
+        {
+            Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            Document newDoc = new Document
+            {
+                Id = updateEmployee.Id,
+                Photo = photo
+            };
+            db.Documents.Add(newDoc);
+            db.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool AddEmployeeScan(string photo, int employeeId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        try
+        {
+            Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            Document newDoc = new Document
+            {
+                Id = updateEmployee.Id,
+                ContractScan = photo
+            };
+            db.Documents.Add(newDoc);
+            db.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public string GetEmployeePhoto(int employeeId)
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        string employeePhoto = db.Documents.FirstOrDefault(x => x.Id == employeeId).Photo;
+        return employeePhoto;
+    }
+
+    public string GetEmployeeScan(int employeeId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        string employeeScan = db.Documents.FirstOrDefault(x => x.Id == employeeId).ContractScan;
+        return employeeScan;
     }
 
     public List<Order> GetAllOrdersPerShift(int shiftId)
@@ -113,10 +161,10 @@ public class AdminEndPoints : IAdminEp
             .ToList();
         return AllOrdersPerShift;
     }
-
+    // TODO check format output
     public bool CreateReportOrdersPerShift(int shiftId, int type)
     {
-        // TODO add paragraphs
+        ShiftDto shiftInfo = GetShiftInfo(shiftId);
         try
         {
             var document = new PdfDocument();
@@ -124,6 +172,24 @@ public class AdminEndPoints : IAdminEp
             var gfx = XGraphics.FromPdfPage(page);
             document.Info.Title = "Created with PDFsharp";
             var filename = ($"{shiftId}_{DateTime.Now.ToUniversalTime()}.pdf");
+            
+            var font = new XFont("Times New Roman", 20, XFontStyleEx.BoldItalic);
+            int height = 50;
+            int width = 0;
+            gfx.DrawString($"Смена №{shiftId}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
+            width = width + 120;
+            gfx.DrawString($"Дата смены №{shiftId} {shiftInfo.ShiftDate}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
+            height = height + 20;
+            width = 0;
+            gfx.DrawString($"Выручка за смену{shiftInfo.AmountByShift}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
+            height = height + 15;
+            width = 0;
+            foreach (var item in shiftInfo.EmployeesAtShift)
+            {
+                gfx.DrawString($"Сотрудник №{item.Id}: {item.SecondName} {item.FirstName} {item.LastName}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
+                height = height + 23;
+                width = 0;
+            }
             document.Save(filename);
         }
         catch (Exception e)
@@ -178,7 +244,23 @@ public class AdminEndPoints : IAdminEp
 
     public ShiftDto GetShiftInfo(int shiftId)
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        ShiftDto getShift = db.Shifts
+            .Include(x => x.ShiftDate)
+            .Include(x => x.EmployeesAtShifts)
+            .ThenInclude(x => x.Employee)
+            .Select(x => new ShiftDto
+            {
+                ShiftDate = x.ShiftDate
+            })
+            .FirstOrDefault();
+        
+        getShift.EmployeesAtShift = db.EmployeesAtShifts
+            .Where(x => x.ShiftId == shiftId)
+            .Select(x => x.Employee)
+            .ToList();
+        // TODO add amount count
+        return getShift;
     }
     
     public bool Dismiss(int employeeId)

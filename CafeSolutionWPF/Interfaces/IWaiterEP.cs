@@ -16,5 +16,7 @@ public interface IWaiterEp
     //nothing to return. Bool is process result
     bool CreateReportOrdersPerShift(int shiftId, int employeeId);
     
+    Order GetOrder(int orderId);
+    
     
 }
