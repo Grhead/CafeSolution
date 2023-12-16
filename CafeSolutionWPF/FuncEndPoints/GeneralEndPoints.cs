@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using CafeSolution.DTO;
 using CafeSolution.Interfaces;
 using CafeSolution.Models;
 using CafeSolutionWPF.Data;
@@ -8,11 +9,15 @@ namespace CafeSolution.FuncEndPoints;
 
 public class GeneralEndPoints: IGeneralEp
 {
-    public string Auth(string login, string password)
+    public AuthDto Auth(string login, string password)
     {
         using DatabaseContext db = new DatabaseContext();
-        string enteredEmployee = db.Employees.FirstOrDefault(x => x.Login == login && x.PassHash == CreateHash(password)).Id.ToString();
-        return enteredEmployee;
+        Employee enteredEmployee = db.Employees.FirstOrDefault(x => x.Login == login && x.PassHash == CreateHash(password));
+        return new AuthDto
+        {
+            Id = enteredEmployee.Id.ToString(), 
+            Role = enteredEmployee.RoleNavigation.Title
+        };
     }
     
     public static string CreateHash(string input)

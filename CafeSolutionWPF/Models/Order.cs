@@ -17,8 +17,6 @@ public partial class Order
 
     public int? PaymentType { get; set; }
 
-    public decimal? Amount { get; set; }
-
     public virtual CookingStatus CookingStatusNavigation { get; set; } = null!;
 
     public virtual ICollection<DishesInOrder> DishesInOrders { get; set; } = new List<DishesInOrder>();

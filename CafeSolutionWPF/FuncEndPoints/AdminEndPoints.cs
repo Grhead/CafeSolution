@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.Win32;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using PdfSharp.Pdf.Structure;
 
 namespace CafeSolution.FuncEndPoints;
 
@@ -97,7 +98,20 @@ public class AdminEndPoints : IAdminEp
 
     public List<Order> GetAllOrdersPerShift(int shiftId)
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        List<Order> AllOrdersPerShift = db.Orders
+            .Include(x => x.CookingStatus)
+            .Include(x => x.PaymentType)
+            .Include(x => x.PaymentStatus)
+            .Include(x => x.DishesInOrders)
+            .ThenInclude(x => x.Dish)
+            .Include(x => x.Table)
+            .ThenInclude(x => x.EmployeesAtTables)
+            .ThenInclude(x => x.Employee)
+            .ThenInclude(x => x.EmployeesAtShifts)
+            .ThenInclude(x => x.Shift)
+            .ToList();
+        return AllOrdersPerShift;
     }
 
     public bool CreateReportOrdersPerShift(int shiftId, int type)
@@ -120,9 +134,26 @@ public class AdminEndPoints : IAdminEp
         return true;
     }
 
-    public List<Shift> CreateShift(List<Shift> shifts, List<Employee> employees)
+    public Shift CreateShift(DateTime shiftDate, List<Employee> employees)
     {
-        throw new System.NotImplementedException();
+        using DatabaseContext db = new DatabaseContext();
+        Shift newShift = new Shift
+        {
+            ShiftDate = shiftDate
+        };
+        db.Shifts.Add(newShift);
+        db.SaveChanges();
+        foreach (var item in employees)
+        {
+            EmployeesAtShift addEmployeeAtShift = new EmployeesAtShift
+            {
+                ShiftId = newShift.Id,
+                EmployeeId = item.Id
+            };
+            db.EmployeesAtShifts.Add(addEmployeeAtShift);
+        }
+        db.SaveChanges();
+        return newShift;
     }
 
     public EmployeeDto GetEmployeeInfo(int employeeId)
@@ -149,9 +180,21 @@ public class AdminEndPoints : IAdminEp
     {
         throw new System.NotImplementedException();
     }
-
+    
     public bool Dismiss(int employeeId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using DatabaseContext db = new DatabaseContext();
+            Employee nextDismiss = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            nextDismiss.Status = 2;
+            db.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        
+        return true;
     }
 }

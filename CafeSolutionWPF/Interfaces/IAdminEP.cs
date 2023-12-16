@@ -17,7 +17,7 @@ public interface IAdminEp
     
     //nothing to return. Bool is process result
     bool CreateReportOrdersPerShift(int shiftId, int type);
-    List<Shift> CreateShift(List<Shift> shifts, List<Employee> employees);
+    Shift CreateShift(DateTime shiftDate, List<Employee> employees);
     EmployeeDto GetEmployeeInfo(int employeeId);
     ShiftDto GetShiftInfo(int shiftId);
     bool Dismiss(int employeeId);
