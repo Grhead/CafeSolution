@@ -9,6 +9,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-    <Button Content="Click"></Button>
+        <Frame
+            Name="MainFrame"
+            Source=""
+            NavigationUIVisibility="Hidden">
+        </Frame>
     </Grid>
 </Window>
