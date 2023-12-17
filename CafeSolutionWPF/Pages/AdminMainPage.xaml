@@ -24,7 +24,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Button 
-                Content="Выйти">
+                Content="Выйти"
+                Command="{Binding ExitBtn}">
             </Button>
             <TextBlock 
                 Text="{Binding SelfLogin}"
@@ -67,7 +68,8 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{Binding SelectedPage}"></TextBlock>
+            Text="{Binding SelectedPage}">
+        </TextBlock>
         <Frame
             Name="AdminFrame"
             Grid.Row="1"

@@ -3,6 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:WaiterViewModel}"
+
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="WaiterMainPage" Height="450" Width="800">
@@ -22,10 +25,11 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Button 
-                Content="Выйти">
+                Content="Выйти"
+                Command="{Binding ExitBtn}">
             </Button>
             <TextBlock 
-                Text="{Binding}"
+                Text="{Binding SelfLogin}"
                 TextAlignment="Center"
                 VerticalAlignment="Center">
             </TextBlock>
@@ -36,21 +40,32 @@
             VerticalAlignment="Center">
             <Button
                 HorizontalAlignment="Center"
-                Content="Создать заказ">
+                Content="Создать заказ"
+                Command="{Binding CreateOrderBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Список заказов">
+                Content="Список заказов"
+                Command="{Binding OrderListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Чек!">
+                Content="Чек!"
+                Command="{Binding Bill}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Отчёт">
+                Content="Отчёт"
+                Command="{Binding Report}">
             </Button>
         </StackPanel>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding SelectedPage}">
+        </TextBlock>
         <Frame
             Name="WaiterFrame"
             Grid.Row="1"

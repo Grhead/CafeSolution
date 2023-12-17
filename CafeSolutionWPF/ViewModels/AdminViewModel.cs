@@ -31,6 +31,14 @@ public class AdminViewModel: UpdateProperty
     private RelayCommand _shiftList;
     private RelayCommand _dismiss;
     private RelayCommand _report;
+    private RelayCommand _exit;
+    
+    public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
+    {
+        Navigation.mainFrame.Navigate(new AuthPage());
+        Navigation.ClientSession = null;
+    }));
+    
     public RelayCommand EmployeeListBtn => _employeeList ?? (_employeeList = new RelayCommand(x =>
     {
         Navigation.adminFrame.Navigate(new EmployeeList());
