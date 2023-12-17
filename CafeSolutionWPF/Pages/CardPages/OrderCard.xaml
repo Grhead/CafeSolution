@@ -52,7 +52,8 @@
                 ItemsSource="{Binding Path=StatusList}"
                 DisplayMemberPath="Name"
                 SelectedValuePath="Name"
-                SelectedValue="{Binding Path=selectedStatus}"></ComboBox>
+                SelectedValue="{Binding Path=selectedStatus}">
+            </ComboBox>
             <Button 
                 Content="Подтвердить">
             </Button>

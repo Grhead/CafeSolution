@@ -48,7 +48,6 @@ public class WaiterViewModel: UpdateProperty
     }));
     
     private RelayCommand _exit;
-    
     public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
     {
         Navigation.mainFrame.Navigate(new AuthPage());

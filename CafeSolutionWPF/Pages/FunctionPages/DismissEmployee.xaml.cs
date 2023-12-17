@@ -7,5 +7,6 @@ public partial class DismissEmployee : Page
     public DismissEmployee()
     {
         InitializeComponent();
+        DataContext = new AdminMainPage();
     }
 }

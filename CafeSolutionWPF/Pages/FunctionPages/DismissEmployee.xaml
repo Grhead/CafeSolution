@@ -3,10 +3,28 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="DismissEmployee" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <ComboBox
+                ItemsSource="{Binding Path=EmployeeListDismiss}"
+                MinWidth="120"
+                SelectedValue="{Binding Path=EmployeeDismiss}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding SecondName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button
+                Content="Уволить">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

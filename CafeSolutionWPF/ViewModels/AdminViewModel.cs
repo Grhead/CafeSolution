@@ -1,4 +1,5 @@
 using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.FuncEndPoints;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Pages;
 
@@ -63,5 +64,15 @@ public class AdminViewModel: UpdateProperty
     {
         Navigation.adminFrame.Navigate(new ReportPage());
         SelectedPage = "Отчёт";
+    }));
+
+    public List<Employee> EmployeeListDismiss { get; }
+    public Employee EmployeeDismiss { get; }
+    
+    private RelayCommand _confirmDismiss;
+    public RelayCommand ConfirmDismissBtn => _confirmDismiss ?? (_confirmDismiss = new RelayCommand(x =>
+    {
+        AdminEndPoints newAdmin = new AdminEndPoints();
+        newAdmin.Dismiss(EmployeeDismiss.Id);
     }));
 }
