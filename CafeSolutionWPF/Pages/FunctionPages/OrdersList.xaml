@@ -3,10 +3,32 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="OrderLis" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <ListBox Name="ListBoxOrders" 
+                     ItemsSource="{Binding OrderListView}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" />
+                            <TextBlock Text="{Binding CookingStatus.Title}" />
+                            <TextBlock Text="{Binding NumberOfCustomers}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button 
+                Content="Посмотреть заказ"
+                HorizontalAlignment="Center"
+                Command="{Binding ViewOrderBtn}">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

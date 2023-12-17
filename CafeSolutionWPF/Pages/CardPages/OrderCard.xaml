@@ -9,54 +9,69 @@
       mc:Ignorable="d"
       Title="OrderCard" Height="450" Width="800">
     <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-        <StackPanel
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border
             Grid.Column="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel
-                Grid.Column="0">
-                <TextBlock Text="Номер заказа: "></TextBlock>
-                <TextBlock Text="Статус: "></TextBlock>
-                <TextBlock Text="Блюда: "></TextBlock>
-            </StackPanel>
-            <StackPanel
-                Grid.Column="1">
-                <TextBlock Text="{Binding OrderView.Id}"></TextBlock>
-                <TextBlock Text="{Binding OrderView.CookingStatus}"></TextBlock>
-                <ListBox
-                    SelectedItem="{Binding selectedOrder}"
-                    ItemsSource="{Binding OrderView.DishesInOrders, UpdateSourceTrigger=PropertyChanged}">
-                    <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Dish.Title}"></TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </Grid>
+            Grid.Row="0"
+            BorderBrush="Black"
+            BorderThickness="0 0 0 1">
+        </Border>
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TextBlock 
+                Text="Номер заказа: "
+                FontSize="18"></TextBlock>
+            <TextBlock 
+                Text="{Binding selectedOrder.Id}"
+                FontSize="18"
+                Margin="0 0 20 0"
+                TextDecorations="Underline"></TextBlock>
+            <TextBlock
+                Text="Статус заказа: "
+                FontSize="18"></TextBlock>
+            <TextBlock
+                Text="{Binding selectedOrder.CookingStatus.Title}"
+                FontSize="18"
+                TextDecorations="Underline">
+            </TextBlock>
         </StackPanel>
         <StackPanel 
-            Grid.Column="1"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
-            <ComboBox
-                ItemsSource="{Binding Path=StatusList}"
-                DisplayMemberPath="Name"
-                SelectedValuePath="Name"
-                SelectedValue="{Binding Path=selectedStatus}">
-            </ComboBox>
-            <Button 
-                Content="Подтвердить">
-            </Button>
+            Grid.Row="1"
+            VerticalAlignment="Center">
+            <ListBox Name="ListBoxDishes" 
+                     ItemsSource="{Binding DishesListView}"
+                     Height="200"
+                     Width="400">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" />
+                            <TextBlock Text="{Binding Title}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel 
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Margin="0 20 0 0">
+                <ComboBox
+                    Width="180"
+                    ItemsSource="{Binding AllCookingStatuses}"
+                    DisplayMemberPath="Name"
+                    SelectedValue="{Binding Path=ComboBoxSelectedItem}">
+                </ComboBox>
+                <Button
+                    Margin="10 0 0 0"
+                    Content="Изменить"
+                    Command="{Binding ChangeStatusBtn}"></Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

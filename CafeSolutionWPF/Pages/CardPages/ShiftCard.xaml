@@ -11,38 +11,73 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border
+        Grid.Column="0"
+        Grid.Row="0"
+        BorderBrush="Black"
+        BorderThickness="0 0 0 1">
+        </Border>
         <StackPanel
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Column="0">
-                    <TextBlock Text="Дата смены: "></TextBlock>
-                    <TextBlock Text="Сумма: "></TextBlock>
-                    <TextBlock Text="Сотрудники: "></TextBlock>
-                </StackPanel>
-                <StackPanel
-                    Grid.Column="1">
-                    <TextBlock Text="{Binding ShiftDtoCard.ShiftDate}"></TextBlock>
-                    <TextBlock Text="{Binding ShiftDtoCard.AmountByShift}"></TextBlock>
-                    <ListBox
-                        SelectedItem="{Binding ShiftDtoCard.EmployeesAtShift}"
-                        ItemsSource="{Binding ShiftDtoCard.EmployeesAtShift, UpdateSourceTrigger=PropertyChanged}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SecondName}"></TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-            </Grid>
+        Grid.Row="0"
+        Orientation="Horizontal"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+            <TextBlock 
+            Text="Номер смены: "
+            FontSize="18"></TextBlock>
+            <TextBlock 
+            Text="1"
+            FontSize="18"
+            Margin="0 0 20 0"
+            TextDecorations="Underline"></TextBlock>
+            <TextBlock 
+            Text="Сумма: "
+            FontSize="18"></TextBlock>
+            <TextBlock
+            Text="18,98"
+            FontSize="18"
+            TextDecorations="Underline">
+            </TextBlock>
         </StackPanel>
-    </Grid>
+        <StackPanel 
+        Grid.Row="1"
+        VerticalAlignment="Center">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="Сотрудники на смене"
+                TextDecorations="Underline"></TextBlock>
+            <ListBox Width="400"
+                 Margin="0 20 0 0"
+                 MaxHeight="130">
+                <ListBoxItem 
+                HorizontalAlignment="Center"
+                Margin="0 0 0 10"
+                FontSize="22">
+                    Иванова Елена Повлова
+                </ListBoxItem>
+                <ListBoxItem
+                    Margin="0 0 0 10"
+                    HorizontalAlignment="Center">
+                    Петрова Елена Александровна
+                </ListBoxItem>
+                <ListBoxItem
+                    Margin="0 0 0 10"
+                    HorizontalAlignment="Center">
+                    Попова Ольга Андреевна
+                </ListBoxItem>
+                <ListBoxItem
+                    Margin="0 0 0 10"
+                    HorizontalAlignment="Center">
+                    Громов Валентин Андреевич
+                </ListBoxItem>
+            </ListBox>
+        </StackPanel>
+        </Grid>
 </Page>

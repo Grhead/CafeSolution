@@ -10,4 +10,9 @@ public partial class OrderCard : Page
         InitializeComponent();
         DataContext = new CookViewModel();
     }
+
+    private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+
+    }
 }

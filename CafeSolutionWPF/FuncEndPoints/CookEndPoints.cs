@@ -8,10 +8,10 @@ namespace CafeSolutionWPF.FuncEndPoints;
 
 public class CookEndPoints: ICookEp
 {
-    public List<Order> GetAllOrdersPerShift(int shiftId)
+    public List<Order> GetAllOrdersPerShift()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> AllOrdersPerShift = db.Orders
+        List<Order> allOrdersPerShift = db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -23,7 +23,7 @@ public class CookEndPoints: ICookEp
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
             .ToList();
-        return AllOrdersPerShift;
+        return allOrdersPerShift;
     }
 
     public Order GetOrder(int orderId)
@@ -40,5 +40,12 @@ public class CookEndPoints: ICookEp
         selectedOrder.CookingStatusId = cookingStatusId;
         db.SaveChanges();
         return selectedOrder;
+    }
+
+    public List<TableCookingStatus> AllStatuses()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        List<TableCookingStatus> statuses = db.TableCookingStatuses.ToList();
+        return statuses;
     }
 }

@@ -17,18 +17,28 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Border
+            Grid.Column="0"
+            Grid.Row="0"
+            BorderBrush="Black"
+            BorderThickness="0 0 0 1">
+        </Border>
         <StackPanel
             Grid.Column="0"
             Grid.Row="0"
             Orientation="Horizontal"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center">
             <Button 
                 Content="Выйти"
-                Command="{Binding ExitBtn}">
+                Command="{Binding ExitBtn}"
+                Width="80">
             </Button>
             <TextBlock 
                 Text="{Binding SelfLogin}"
+                FontSize="14"
+                TextDecorations="Underline"
+                Margin="10 0 0 0"
                 TextAlignment="Center"
                 VerticalAlignment="Center">
             </TextBlock>
@@ -40,26 +50,50 @@
             <Button
                 HorizontalAlignment="Center"
                 Content="Список сотрудников"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding EmployeeListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
                 Content="Список заказов"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding OrderListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
                 Content="Список смен"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding ShiftListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
+                Content="Создать смену"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding NewShiftBtn}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
                 Content="Уволить"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding DismissBtn}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Нанять"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding DismissBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
                 Content="Отчёт"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding ReportBtn}">
             </Button>
         </StackPanel>
@@ -68,6 +102,7 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            FontSize="18"
             Text="{Binding SelectedPage}">
         </TextBlock>
         <Frame
@@ -75,6 +110,8 @@
             Grid.Row="1"
             Grid.Column="1"
             Source=""
+            BorderBrush="Black"
+            BorderThickness="1 0 0 0"
             NavigationUIVisibility="Hidden">
         </Frame>
     </Grid>

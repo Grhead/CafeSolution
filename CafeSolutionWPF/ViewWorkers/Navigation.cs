@@ -1,6 +1,7 @@
 using System.Windows.Controls;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
+using CafeSolutionWPF.DTO;
 
 namespace CafeSolutionWPF;
 
@@ -17,4 +18,8 @@ public class Navigation
         get => clientSession;
         set => clientSession = value;
     }
+    
+    public static Order selectedOrder { get; set; }
+    public static Employee selectedEmployee { get; set; }
+    public static ShiftDto selectedShift { get; set; }
 }

@@ -9,14 +9,11 @@
       mc:Ignorable="d"
       Title="AuthPage" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Column="0"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
+            <TextBlock Text="Логин"></TextBlock>
             <TextBox
                 BorderBrush="Black"
                 BorderThickness="1"
@@ -24,21 +21,25 @@
                 MinWidth="180"
                 Text="{Binding Login}">
             </TextBox>
+            <TextBlock Text="Пароль"></TextBlock>
             <PasswordBox
                 Name="PassBox"
                 BorderBrush="Black"
+                Margin="0 0 0 10"
+                MinWidth="180"
                 BorderThickness="1">
             </PasswordBox>
+            <Button
+                Name="ApplyButton"
+                Content="Войти"
+                IsDefault = "true"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 10"
+                MinWidth="180"
+                Command="{Binding ApplyBtn}"
+                CommandParameter="{Binding ElementName = PassBox}">
+            </Button>
         </StackPanel>
-        <Button
-            Name="ApplyButton"
-            Grid.Column="1"
-            Content="Войти"
-            IsDefault = "true"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Command="{Binding ApplyBtn}"
-            CommandParameter="{Binding ElementName = PassBox}">
-        </Button>
     </Grid>
 </Page>

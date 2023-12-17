@@ -4,9 +4,31 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
+      
       mc:Ignorable="d"
       Title="EmployeeList" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <ListBox Name="ListBoxOrders" 
+                     ItemsSource="{Binding OrderListView}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" />
+                            <TextBlock Text="{Binding CookingStatus.Title}" />
+                            <TextBlock Text="{Binding NumberOfCustomers}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button
+                Margin="0 10 0 0"
+                Content="Посмотреть карточку сотрудника"
+                HorizontalAlignment="Center"
+                Command="{Binding ViewEmployeeBtn}">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

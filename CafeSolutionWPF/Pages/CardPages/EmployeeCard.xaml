@@ -13,7 +13,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel 
+        <StackPanel
             Grid.Column="0"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
@@ -23,39 +23,115 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel
-                    Grid.Column="0">
-                    <TextBlock Text="Имя: "></TextBlock>
-                    <TextBlock Text="Фамилия: "></TextBlock>
-                    <TextBlock Text="Отчество: "></TextBlock>
-                    <TextBlock Text="Дата Рождения"></TextBlock>
-                    <TextBlock Text="Должность: "></TextBlock>
-                    <TextBlock Text="Статус: "></TextBlock>
-                    <TextBlock Text="Логин: "></TextBlock>
+                    Grid.Column="0"
+                    Margin="0 0 20 0">
+                    <TextBlock
+                        Text="Имя: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Фамилия: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Отчество: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Дата Рождения"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Должность: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Статус: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Логин: "
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
                 </StackPanel>
                 <StackPanel
-                    Grid.Column="0">
-                    <TextBlock Text="{Binding ViewEmployee.FirstName}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.SecondName}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.LastName}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.Birthday}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.Role.Title}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.Status.Title}"></TextBlock>
-                    <TextBlock Text="{Binding ViewEmployee.Login}"></TextBlock>
+                    Grid.Column="1">
+                    <TextBlock
+                        Text="Дмитрий"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Смирнов"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Александрович"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="1987-11-30"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Повар"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="Работает"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
+                    <TextBlock
+                        Text="dsmirnov"
+                        FontSize="16"
+                        Margin="0 0 0 10">
+                    </TextBlock>
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <StackPanel 
+        <StackPanel
             Grid.Column="1"
             Orientation="Horizontal"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <Image
-                Source="{Binding ViewEmployee.Photo}">
-            </Image>
-            <Image
-                Source="{Binding ViewEmployee.ContractScan}">
-            </Image>
+            <StackPanel>
+                <Image
+                    Source="C:\Users\orlov\OneDrive\Изображения\Фото Д.А.Смирнова.png"
+                    Width="180"
+                    Height="299"
+                    Margin="10">
+                </Image>
+                <TextBlock 
+                    Text="Фото Д.А.Смирнова"
+                    HorizontalAlignment="Center">
+                </TextBlock>
+            </StackPanel>
+            <StackPanel>
+                <Image
+                    Source="C:\Users\orlov\OneDrive\Изображения\Скан Д.А.Смирнова.png"
+                    Width="180"
+                    Height="299"
+                    Margin="10">
+                </Image>
+                <TextBlock 
+                    Text="Скан Д.А.Смирнова"
+                    HorizontalAlignment="Center">
+                </TextBlock>
+            </StackPanel>
+            
         </StackPanel>
-        
+
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
 using CafeSolutionWPF.Pages;
+using CafeSolutionWPF.Pages.FunctionPages;
 
 namespace CafeSolutionWPF.ViewModels;
 
@@ -28,8 +29,8 @@ public class WaiterViewModel: UpdateProperty
     private RelayCommand _report;
     public RelayCommand CreateOrderBtn => _createOrder ?? (_createOrder = new RelayCommand(x =>
     {
-        Navigation.waiterFrame.Navigate(new OrdersList());
-        SelectedPage = "Список заказов";
+        Navigation.waiterFrame.Navigate(new OrderCreate());
+        SelectedPage = "Создание заказа";
     }));
     public RelayCommand OrderListBtn => _orderList ?? (_orderList = new RelayCommand(x =>
     {
@@ -38,15 +39,15 @@ public class WaiterViewModel: UpdateProperty
     }));
     public RelayCommand Bill => _bill ?? (_bill = new RelayCommand(x =>
     {
-        Navigation.waiterFrame.Navigate(new OrdersList());
-        SelectedPage = "Список заказов";
+        Navigation.waiterFrame.Navigate(new BillPage());
+        SelectedPage = "Чек";
     }));
     public RelayCommand Report => _report ?? (_report = new RelayCommand(x =>
     {
-        Navigation.waiterFrame.Navigate(new OrdersList());
-        SelectedPage = "Список заказов";
+        Navigation.waiterFrame.Navigate(new ReportPage());
+        SelectedPage = "Отчёт";
     }));
-    
+
     private RelayCommand _exit;
     public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
     {

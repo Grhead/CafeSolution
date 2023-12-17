@@ -23,7 +23,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <Button
-                Content="Уволить">
+                Content="Уволить"
+                Command="{Binding ConfirmDismissBtn}">
             </Button>
         </StackPanel>
     </Grid>

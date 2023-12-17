@@ -1,13 +1,14 @@
-<Page x:Class="CafeSolutionWPF.Pages.CookMainPage"
+<Page x:Class="CafeSolutionWPF.Pages.WaiterMainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
-      d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
+      d:DataContext="{d:DesignInstance Type=viewmodels:WaiterViewModel}"
+
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="CookMainPage" Height="450" Width="800">
+      Title="WaiterMainPage" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -17,18 +18,28 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Border
+            Grid.Column="0"
+            Grid.Row="0"
+            BorderBrush="Black"
+            BorderThickness="0 0 0 1">
+        </Border>
         <StackPanel
             Grid.Column="0"
             Grid.Row="0"
             Orientation="Horizontal"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center">
             <Button 
                 Content="Выйти"
-                Command="{Binding ExitBtn}">
+                Command="{Binding ExitBtn}"
+                Width="80">
             </Button>
             <TextBlock 
                 Text="{Binding SelfLogin}"
+                FontSize="14"
+                TextDecorations="Underline"
+                Margin="10 0 0 0"
                 TextAlignment="Center"
                 VerticalAlignment="Center">
             </TextBlock>
@@ -39,8 +50,31 @@
             VerticalAlignment="Center">
             <Button
                 HorizontalAlignment="Center"
+                Content="Создать заказ"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding CreateOrderBtn}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
                 Content="Список заказов"
+                Width="160"
+                Margin="0 0 0 10"
                 Command="{Binding OrderListBtn}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Чек!"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding Bill}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Отчёт"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding Report}">
             </Button>
         </StackPanel>
         <TextBlock
@@ -48,13 +82,16 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            FontSize="18"
             Text="{Binding SelectedPage}">
         </TextBlock>
         <Frame
-            Name="CookFrame"
+            Name="WaiterFrame"
             Grid.Row="1"
             Grid.Column="1"
             Source=""
+            BorderBrush="Black"
+            BorderThickness="1 0 0 0"
             NavigationUIVisibility="Hidden">
         </Frame>
     </Grid>

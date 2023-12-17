@@ -193,24 +193,31 @@ public class AdminEndPoints : IAdminEp
 
     public Shift CreateShift(DateTime shiftDate, List<Employee> employees)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Shift newShift = new Shift
+        if (shiftDate < DateTime.Today.AddDays(5) && employees.Count > 3 && employees.Count < 8)
         {
-            ShiftDate = shiftDate
-        };
-        db.Shifts.Add(newShift);
-        db.SaveChanges();
-        foreach (var item in employees)
-        {
-            EmployeesAtShift addEmployeeAtShift = new EmployeesAtShift
+            using DatabaseContext db = new DatabaseContext();
+            Shift newShift = new Shift
             {
-                ShiftId = newShift.Id,
-                EmployeeId = item.Id
+                ShiftDate = shiftDate
             };
-            db.EmployeesAtShifts.Add(addEmployeeAtShift);
+            db.Shifts.Add(newShift);
+            db.SaveChanges();
+            foreach (var item in employees)
+            {
+                EmployeesAtShift addEmployeeAtShift = new EmployeesAtShift
+                {
+                    ShiftId = newShift.Id,
+                    EmployeeId = item.Id
+                };
+                db.EmployeesAtShifts.Add(addEmployeeAtShift);
+            }
+
+            db.SaveChanges();
+            return newShift;
         }
-        db.SaveChanges();
-        return newShift;
+
+        return null;
+
     }
 
     public EmployeeDto GetEmployeeInfo(int employeeId)
