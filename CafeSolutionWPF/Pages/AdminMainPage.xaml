@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="AdminMainPage" Height="450" Width="800">
@@ -25,7 +27,7 @@
                 Content="Выйти">
             </Button>
             <TextBlock 
-                Text="{Binding}"
+                Text="{Binding SelfLogin}"
                 TextAlignment="Center"
                 VerticalAlignment="Center">
             </TextBlock>
@@ -36,19 +38,28 @@
             VerticalAlignment="Center">
             <Button
                 HorizontalAlignment="Center"
-                Content="Список сотрудников">
+                Content="Список сотрудников"
+                Command="{Binding EmployeeListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Список заказов">
+                Content="Список заказов"
+                Command="{Binding OrderListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Список смен">
+                Content="Список смен"
+                Command="{Binding ShiftListBtn}">
             </Button>
             <Button
                 HorizontalAlignment="Center"
-                Content="Отчёт">
+                Content="Уволить"
+                Command="{Binding DismissBtn}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
+                Content="Отчёт"
+                Command="{Binding ReportBtn}">
             </Button>
         </StackPanel>
         <TextBlock
@@ -56,7 +67,7 @@
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{Binding}"></TextBlock>
+            Text="{Binding SelectedPage}"></TextBlock>
         <Frame
             Name="AdminFrame"
             Grid.Row="1"

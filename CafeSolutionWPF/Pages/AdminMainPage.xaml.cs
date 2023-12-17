@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages;
 
@@ -8,5 +9,6 @@ public partial class AdminMainPage : Page
     {
         InitializeComponent();
         Navigation.adminFrame = AdminFrame;
+        DataContext = new AdminViewModel();
     }
 }

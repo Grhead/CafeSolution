@@ -1,6 +1,6 @@
 namespace CafeSolutionWPF.ViewModels;
 
-public class WaiterViewModel
+public class WaiterViewModel: UpdateProperty
 {
     
 }

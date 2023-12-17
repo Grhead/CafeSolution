@@ -7,6 +7,6 @@
       mc:Ignorable="d"
       Title="ShiftList" Height="450" Width="800">
     <Grid>
-        
+        <TextBlock Text="1176777711123"></TextBlock>
     </Grid>
 </Page>
