@@ -3,10 +3,59 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="EmployeeCard" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel 
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0">
+                    <TextBlock Text="Имя: "></TextBlock>
+                    <TextBlock Text="Фамилия: "></TextBlock>
+                    <TextBlock Text="Отчество: "></TextBlock>
+                    <TextBlock Text="Дата Рождения"></TextBlock>
+                    <TextBlock Text="Должность: "></TextBlock>
+                    <TextBlock Text="Статус: "></TextBlock>
+                    <TextBlock Text="Логин: "></TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="0">
+                    <TextBlock Text="{Binding ViewEmployee.FirstName}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.SecondName}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.LastName}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.Birthday}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.Role.Title}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.Status.Title}"></TextBlock>
+                    <TextBlock Text="{Binding ViewEmployee.Login}"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <StackPanel 
+            Grid.Column="1"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Image
+                Source="{Binding ViewEmployee.Photo}">
+            </Image>
+            <Image
+                Source="{Binding ViewEmployee.ContractScan}">
+            </Image>
+        </StackPanel>
         
     </Grid>
 </Page>

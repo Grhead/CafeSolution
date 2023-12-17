@@ -3,10 +3,58 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages.CardPages"
       mc:Ignorable="d"
       Title="OrderCard" Height="450" Width="800">
     <Grid>
-        
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0">
+                <TextBlock Text="Номер заказа: "></TextBlock>
+                <TextBlock Text="Статус: "></TextBlock>
+                <TextBlock Text="Блюда: "></TextBlock>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1">
+                <TextBlock Text="{Binding OrderId}"></TextBlock>
+                <TextBlock Text="{Binding OrderCookingStatus}"></TextBlock>
+                <ListBox
+                    SelectedItem="{Binding selectedOrder}">
+                    <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DishTitle}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+        </StackPanel>
+        <StackPanel 
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <ComboBox
+                ItemsSource="{Binding Path=StatusList}"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Name"
+                SelectedValue="{Binding Path=selectedStatus}"></ComboBox>
+            <Button 
+                Content="Подтвердить">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
