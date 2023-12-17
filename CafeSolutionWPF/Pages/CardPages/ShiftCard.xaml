@@ -33,10 +33,11 @@
                     <TextBlock Text="{Binding ShiftDtoCard.ShiftDate}"></TextBlock>
                     <TextBlock Text="{Binding ShiftDtoCard.AmountByShift}"></TextBlock>
                     <ListBox
-                        SelectedItem="{Binding ShiftDtoCard.EmployeesAtShift}">
+                        SelectedItem="{Binding ShiftDtoCard.EmployeesAtShift}"
+                        ItemsSource="{Binding ShiftDtoCard.EmployeesAtShift, UpdateSourceTrigger=PropertyChanged}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding DishTitle}"></TextBlock>
+                                <TextBlock Text="{Binding SecondName}"></TextBlock>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

@@ -30,13 +30,14 @@
             </StackPanel>
             <StackPanel
                 Grid.Column="1">
-                <TextBlock Text="{Binding OrderId}"></TextBlock>
-                <TextBlock Text="{Binding OrderCookingStatus}"></TextBlock>
+                <TextBlock Text="{Binding OrderView.Id}"></TextBlock>
+                <TextBlock Text="{Binding OrderView.CookingStatus}"></TextBlock>
                 <ListBox
-                    SelectedItem="{Binding selectedOrder}">
+                    SelectedItem="{Binding selectedOrder}"
+                    ItemsSource="{Binding OrderView.DishesInOrders, UpdateSourceTrigger=PropertyChanged}">
                     <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding DishTitle}"></TextBlock>
+                        <TextBlock Text="{Binding Dish.Title}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 </ListBox>
