@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using CafeSolution.DTO;
-using CafeSolution.Interfaces;
-using CafeSolution.Models;
+using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.Interfaces;
+using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
 using Microsoft.EntityFrameworkCore;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
-namespace CafeSolution.FuncEndPoints;
+namespace CafeSolutionWPF.FuncEndPoints;
 
 public class WaiterEndPoints: IWaiterEp
 {
@@ -37,8 +37,8 @@ public class WaiterEndPoints: IWaiterEp
         {
             TableId = table,
             NumberOfCustomers = numberOfCustomers,
-            PaymentStatus = 1,
-            CookingStatus = 1,
+            PaymentStatusId = 1,
+            CookingStatusId = 1,
             PaymentType = null
         };
         db.Orders.Add(newOrder);
@@ -60,8 +60,8 @@ public class WaiterEndPoints: IWaiterEp
     {
         using DatabaseContext db = new DatabaseContext();
         Order selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
-        selectedOrder.PaymentStatus = paymentStatusId;
-        selectedOrder.PaymentType = paymentTypeId;
+        selectedOrder.PaymentStatusId = paymentStatusId;
+        selectedOrder.PaymentTypeId = paymentTypeId;
         db.SaveChanges();
         return selectedOrder;
     }
@@ -84,8 +84,8 @@ public class WaiterEndPoints: IWaiterEp
             BillDate = DateTime.Now.ToLocalTime(),
             Employee = servingWaiter.SecondName + " " + servingWaiter.FirstName + " " + servingWaiter.LastName,
             DishesInBill = dishesInOrders,
-            PaymentStatus = getOrder.PaymentStatusNavigation.Title,
-            PaymentType = getOrder.PaymentStatusNavigation.Title,
+            PaymentStatus = getOrder.PaymentStatus.Title,
+            PaymentType = getOrder.PaymentType.Title,
             Amount = totalAmount
         };
         
@@ -137,7 +137,7 @@ public class WaiterEndPoints: IWaiterEp
             .ThenInclude(x => x.Employee)
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
-            .Where(x => x.PaymentStatus == 2 && x.Table.EmployeesAtTables.Any(x => x.EmployeeId == employeeId))
+            .Where(x => x.PaymentStatusId == 2 && x.Table.EmployeesAtTables.Any(x => x.EmployeeId == employeeId))
             .ToList();
         return AllOrdersPerShift;
     }

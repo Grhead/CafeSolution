@@ -1,6 +1,6 @@
 using System;
 
-namespace CafeSolution.DTO;
+namespace CafeSolutionWPF.DTO;
 
 public class EmployeeDto
 {

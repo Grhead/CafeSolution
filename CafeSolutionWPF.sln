@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeSolutionWPF", "CafeSolutionWPF\CafeSolutionWPF.csproj", "{D04B02A3-4750-4A56-B77F-70B40EBCFD80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeSolutionWPF", "CafeSolutionWPF\CafeSolutionWPF.csproj", "{EFD6AD6C-9926-4DBC-8521-F6E6CF3928A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D04B02A3-4750-4A56-B77F-70B40EBCFD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D04B02A3-4750-4A56-B77F-70B40EBCFD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D04B02A3-4750-4A56-B77F-70B40EBCFD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D04B02A3-4750-4A56-B77F-70B40EBCFD80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFD6AD6C-9926-4DBC-8521-F6E6CF3928A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD6AD6C-9926-4DBC-8521-F6E6CF3928A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFD6AD6C-9926-4DBC-8521-F6E6CF3928A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFD6AD6C-9926-4DBC-8521-F6E6CF3928A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

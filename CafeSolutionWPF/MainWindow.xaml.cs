@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CafeSolutionWPF.Pages;
+using CafeSolutionWPF.ViewModels;
+using Frame = ModernWpf.Controls.Frame;
 
 namespace CafeSolutionWPF;
 
@@ -20,5 +23,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         Navigation.mainFrame = MainFrame;
+        Navigation.mainFrame.Navigate(new AuthPage());
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using CafeSolution.Models;
+using CafeSolutionWPF.Models;
 
-namespace CafeSolution.Interfaces;
+namespace CafeSolutionWPF.Interfaces;
 
 public interface ICookEp
 {

@@ -1,4 +1,4 @@
-﻿namespace CafeSolutionWPF.ViewModels;
+namespace CafeSolutionWPF.ViewModels;
 
 public class CookViewModel
 {

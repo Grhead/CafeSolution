@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using CafeSolution.Interfaces;
-using CafeSolution.Models;
+using CafeSolutionWPF.Interfaces;
+using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CafeSolution.FuncEndPoints;
+namespace CafeSolutionWPF.FuncEndPoints;
 
 public class CookEndPoints: ICookEp
 {
@@ -37,7 +37,7 @@ public class CookEndPoints: ICookEp
     {
         using DatabaseContext db = new DatabaseContext();
         Order selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
-        selectedOrder.CookingStatus = cookingStatusId;
+        selectedOrder.CookingStatusId = cookingStatusId;
         db.SaveChanges();
         return selectedOrder;
     }

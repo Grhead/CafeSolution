@@ -1,4 +1,4 @@
-﻿<Page x:Class="CafeSolutionWPF.Pages.CookMainPage"
+<Page x:Class="CafeSolutionWPF.Pages.CookMainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,6 +15,30 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="0"
+            Grid.Row="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Button 
+                Content="Выйти">
+            </Button>
+            <TextBlock 
+                Text="{Binding}"
+                TextAlignment="Center"
+                VerticalAlignment="Center">
+            </TextBlock>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center">
+            <Button
+                HorizontalAlignment="Center"
+                Content="Список заказов">
+            </Button>
+        </StackPanel>
         <Frame
             Name="CookFrame"
             Grid.Row="1"

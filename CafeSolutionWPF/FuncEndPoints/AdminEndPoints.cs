@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Linq;
 using System.Windows;
-using CafeSolution.DTO;
-using CafeSolution.Interfaces;
-using CafeSolution.Models;
+using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.Interfaces;
+using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
@@ -14,7 +14,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Structure;
 
-namespace CafeSolution.FuncEndPoints;
+namespace CafeSolutionWPF.FuncEndPoints;
 
 public class AdminEndPoints : IAdminEp
 {
@@ -30,8 +30,8 @@ public class AdminEndPoints : IAdminEp
                 SecondName = x.SecondName,
                 LastName = x.LastName,
                 Birthday = x.Birthday,
-                Role = x.RoleNavigation.Title,
-                Status = x.StatusNavigation.Title
+                Role = x.Role.Title,
+                Status = x.Status.Title
                 
             }).ToList();
         return employees;
@@ -77,8 +77,8 @@ public class AdminEndPoints : IAdminEp
                 SecondName = x.SecondName,
                 LastName = x.LastName,
                 Birthday = x.Birthday,
-                Role = x.RoleNavigation.Title,
-                Status = x.StatusNavigation.Title
+                Role = x.Role.Title,
+                Status = x.Status.Title
 
             }).Where(x => x.FirstName == employee.FirstName
                           && x.SecondName == employee.SecondName
@@ -92,12 +92,7 @@ public class AdminEndPoints : IAdminEp
         try
         {
             Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
-            Document newDoc = new Document
-            {
-                Id = updateEmployee.Id,
-                Photo = photo
-            };
-            db.Documents.Add(newDoc);
+            updateEmployee.Photo = photo;
             db.SaveChanges();
         }
         catch (Exception e)
@@ -114,12 +109,8 @@ public class AdminEndPoints : IAdminEp
         try
         {
             Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
-            Document newDoc = new Document
-            {
-                Id = updateEmployee.Id,
-                ContractScan = photo
-            };
-            db.Documents.Add(newDoc);
+            updateEmployee.ContractScan = photo;
+            db.SaveChanges();
             db.SaveChanges();
         }
         catch (Exception e)
@@ -133,14 +124,14 @@ public class AdminEndPoints : IAdminEp
     public string GetEmployeePhoto(int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
-        string employeePhoto = db.Documents.FirstOrDefault(x => x.Id == employeeId).Photo;
+        string employeePhoto = db.Employees.FirstOrDefault(x => x.Id == employeeId).Photo;
         return employeePhoto;
     }
 
     public string GetEmployeeScan(int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
-        string employeeScan = db.Documents.FirstOrDefault(x => x.Id == employeeId).ContractScan;
+        string employeeScan = db.Employees.FirstOrDefault(x => x.Id == employeeId).ContractScan;
         return employeeScan;
     }
 
@@ -235,8 +226,8 @@ public class AdminEndPoints : IAdminEp
                 SecondName = x.SecondName,
                 LastName = x.LastName,
                 Birthday = x.Birthday,
-                Role = x.RoleNavigation.Title,
-                Status = x.StatusNavigation.Title
+                Role = x.Role.Title,
+                Status = x.Status.Title
 
             }).FirstOrDefault();
         return getEmployee;
@@ -269,7 +260,7 @@ public class AdminEndPoints : IAdminEp
         {
             using DatabaseContext db = new DatabaseContext();
             Employee nextDismiss = db.Employees.FirstOrDefault(x => x.Id == employeeId);
-            nextDismiss.Status = 2;
+            nextDismiss.StatusId = 2;
             db.SaveChanges();
         }
         catch (Exception e)

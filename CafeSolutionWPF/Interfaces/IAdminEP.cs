@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using CafeSolution.DTO;
-using CafeSolution.Models;
+using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.Models;
 
-namespace CafeSolution.Interfaces;
+namespace CafeSolutionWPF.Interfaces;
 
 public interface IAdminEp
 {

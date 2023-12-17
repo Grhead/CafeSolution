@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using CafeSolution.Models;
+using CafeSolutionWPF.Models;
 
-namespace CafeSolution.DTO;
+namespace CafeSolutionWPF.DTO;
 
 public class BillDto
 {

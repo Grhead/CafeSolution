@@ -5,7 +5,7 @@ using System.Reflection;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace CafeSolution.ConfigClasses;
+namespace CafeSolutionWPF.ConfigClasses;
 
 public class ConfigReader
 {
@@ -13,8 +13,10 @@ public class ConfigReader
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
-        string resourceText = ReadResource("CafeSolution.config.yaml");
-        return deserializer.Deserialize<ConfigStructure>(resourceText);
+        var exePath = AppDomain.CurrentDomain.BaseDirectory;
+        var path = Path.Combine(exePath, "..\\..\\..\\config.yaml");
+        var myConfig = deserializer.Deserialize<ConfigStructure>(File.ReadAllText(path));
+        return myConfig;
     }
     
     public static string ReadResource(string name)

@@ -1,23 +1,38 @@
 using System.Security.Cryptography;
 using System.Text;
-using CafeSolution.DTO;
-using CafeSolution.Interfaces;
-using CafeSolution.Models;
+using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.Interfaces;
+using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace CafeSolution.FuncEndPoints;
+namespace CafeSolutionWPF.FuncEndPoints;
 
-public class GeneralEndPoints: IGeneralEp
+public class GeneralEndPoints
 {
-    public AuthDto Auth(string login, string password)
+    public static AuthDto Auth(string login, string password)
     {
         using DatabaseContext db = new DatabaseContext();
-        Employee enteredEmployee = db.Employees.FirstOrDefault(x => x.Login == login && x.PassHash == CreateHash(password));
+        var qwe = db.Employees.ToList();
+        var enteredEmployee = db.Employees.Include(employee => employee.Role).FirstOrDefault(x => x.Login == login 
+                                                                          && x.PassHash == CreateHash(password));
+        if (enteredEmployee != null)
+        {
+            return new AuthDto
+            {
+                Id = enteredEmployee.Id.ToString(), 
+                Employee = enteredEmployee,
+                RoleTitle = enteredEmployee.Role.Title,
+                Role = enteredEmployee.RoleId
+            };
+        }
         return new AuthDto
         {
-            Id = enteredEmployee.Id.ToString(), 
-            Role = enteredEmployee.RoleNavigation.Title
-        };
+                Id = null, 
+                Employee = null,
+                RoleTitle = "",
+                Role = 0
+            };
     }
     
     public static string CreateHash(string input)

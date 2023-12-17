@@ -1,4 +1,4 @@
-namespace CafeSolution.ConfigClasses;
+namespace CafeSolutionWPF.ConfigClasses;
 
 public class ConfigStructure
 {
