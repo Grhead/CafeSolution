@@ -7,5 +7,6 @@ public partial class CookMainPage : Page
     public CookMainPage()
     {
         InitializeComponent();
+        Navigation.cookFrame = CookFrame;
     }
 }

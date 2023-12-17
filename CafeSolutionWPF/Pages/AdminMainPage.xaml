@@ -25,7 +25,7 @@
                 Content="Выйти">
             </Button>
             <TextBlock 
-                Text='"{Binding}"'
+                Text="{Binding}"
                 TextAlignment="Center"
                 VerticalAlignment="Center">
             </TextBlock>
@@ -51,6 +51,12 @@
                 Content="Отчёт">
             </Button>
         </StackPanel>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding}"></TextBlock>
         <Frame
             Name="AdminFrame"
             Grid.Row="1"

@@ -7,5 +7,6 @@ public partial class WaiterMainPage : Page
     public WaiterMainPage()
     {
         InitializeComponent();
+        Navigation.waiterFrame = WaiterFrame;
     }
 }

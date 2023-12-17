@@ -2,11 +2,10 @@
 
 namespace CafeSolutionWPF.Pages;
 
-public partial class AdminMainPage : Page
+public partial class AuthPage : Page
 {
-    public AdminMainPage()
+    public AuthPage()
     {
         InitializeComponent();
-        Navigation.adminFrame = AdminFrame;
     }
 }
