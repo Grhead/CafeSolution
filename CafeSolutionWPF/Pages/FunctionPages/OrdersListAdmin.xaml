@@ -3,22 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.FunctionPages"
       mc:Ignorable="d"
       Title="OrdersListAdmin" Height="450" Width="800">
     <Grid>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <ListBox 
+            <ListBox
                 Name="ListBoxOrders"
-                Height="250">
-            </ListBox>
-            <Button 
+                Height="250" />
+            <Button
                 Content="Посмотреть заказ"
                 HorizontalAlignment="Center"
-                Click="ButtonBase_OnClick">
-            </Button>
+                Click="ButtonBase_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

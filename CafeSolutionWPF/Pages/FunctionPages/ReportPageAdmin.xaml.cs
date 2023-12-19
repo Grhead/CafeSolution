@@ -16,8 +16,8 @@ public partial class ReportPageAdmin : Page
 
     private void PdfBtnGet_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newAdmin = new AdminEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;
@@ -27,8 +27,8 @@ public partial class ReportPageAdmin : Page
 
     private void XlsxBtnGet_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newAdmin = new AdminEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;
@@ -38,8 +38,8 @@ public partial class ReportPageAdmin : Page
 
     private void PdfBtnPaid_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newAdmin = new AdminEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;
@@ -49,8 +49,8 @@ public partial class ReportPageAdmin : Page
 
     private void XlsxBtnPaid_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newAdmin = new AdminEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;

@@ -10,24 +10,18 @@ public partial class DismissEmployee : Page
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
-        AdminViewModel newAdmin = new AdminViewModel();
-        foreach (var item in newAdmin.GetAllWorkEmployees())
-        {
-            ComboBoxDismissEmployee.Items.Insert(0, item.Id);
-        }
+        var newAdmin = new AdminViewModel();
+        foreach (var item in newAdmin.GetAllWorkEmployees()) ComboBoxDismissEmployee.Items.Insert(0, item.Id);
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminViewModel newAdmin = new AdminViewModel();
+        var newAdmin = new AdminViewModel();
         if (ComboBoxDismissEmployee.SelectionBoxItem != null)
         {
             newAdmin.DismissEmployee((int)ComboBoxDismissEmployee.SelectionBoxItem);
             ComboBoxDismissEmployee.Items.Clear();
-            foreach (var item in newAdmin.GetAllWorkEmployees())
-            {
-                ComboBoxDismissEmployee.Items.Insert(0, item.Id);
-            }
+            foreach (var item in newAdmin.GetAllWorkEmployees()) ComboBoxDismissEmployee.Items.Insert(0, item.Id);
         }
     }
 }

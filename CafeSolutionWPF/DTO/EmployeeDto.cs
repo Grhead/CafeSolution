@@ -1,5 +1,3 @@
-using System;
-
 namespace CafeSolutionWPF.DTO;
 
 public class EmployeeDto

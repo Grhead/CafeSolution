@@ -11,16 +11,11 @@ public partial class OrderCard : Page
     {
         InitializeComponent();
         DataContext = new CookViewModel();
-        CookEndPoints newCook = new CookEndPoints();
-        foreach (var item in newCook.AllStatuses())
-        {
-            ComboBoxDishes.Items.Insert(ComboBoxDishes.Items.Count, item.Title);
-        }
+        var newCook = new CookEndPoints();
+        foreach (var item in newCook.AllStatuses()) ComboBoxDishes.Items.Insert(ComboBoxDishes.Items.Count, item.Title);
         ListBoxDishes.Items.Clear();
         foreach (var item in newCook.GetDishesInOrder(Navigation.selectedOrder.Id))
-        {
             ListBoxDishes.Items.Insert(ListBoxDishes.Items.Count, item.Title);
-        }
 
         TextBlockOrderId.Text = Navigation.selectedOrder.Id.ToString();
         TextBlockStatus.Text = Navigation.selectedOrder.CookingStatusId.ToString();
@@ -28,8 +23,9 @@ public partial class OrderCard : Page
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        CookEndPoints newCook = new CookEndPoints();
+        var newCook = new CookEndPoints();
         // int selectedId = newCook.GetDishId((string)ComboBoxDishes.SelectedItem);
-        newCook.ChangeCookingStatus(Navigation.selectedOrder.Id,newCook.GetDishId(ComboBoxDishes.SelectedItem.ToString()));
+        newCook.ChangeCookingStatus(Navigation.selectedOrder.Id,
+            newCook.GetDishId(ComboBoxDishes.SelectedItem.ToString()));
     }
 }

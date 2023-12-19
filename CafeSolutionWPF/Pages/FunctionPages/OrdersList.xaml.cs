@@ -1,8 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.FuncEndPoints;
-using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Pages.CardPages;
 using CafeSolutionWPF.ViewModels;
 
@@ -14,7 +12,7 @@ public partial class OrdersList : Page
     {
         InitializeComponent();
         DataContext = new CookViewModel();
-        CookEndPoints newCook = new CookEndPoints();
+        var newCook = new CookEndPoints();
         foreach (var item in newCook.GetAllOrdersPerShift())
         {
             var newOrderString = item.Id;
@@ -24,8 +22,8 @@ public partial class OrdersList : Page
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminViewModel newAdmin = new AdminViewModel();
-        AdminEndPoints newAdminFunc = new AdminEndPoints();
+        var newAdmin = new AdminViewModel();
+        var newAdminFunc = new AdminEndPoints();
         if (ListBoxOrders.SelectedItem != null)
         {
             Navigation.selectedOrder = newAdminFunc.GetOrder((int)ListBoxOrders.SelectedItem);

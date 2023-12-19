@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="DismissEmployee" Height="650" Width="1100">
     <Grid>
@@ -13,12 +12,10 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
             <ComboBox
-                Name="ComboBoxDismissEmployee">
-            </ComboBox>
+                Name="ComboBoxDismissEmployee" />
             <Button
                 Content="Уволить"
-                Click="ButtonBase_OnClick">
-            </Button>
+                Click="ButtonBase_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

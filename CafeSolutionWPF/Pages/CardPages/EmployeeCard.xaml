@@ -5,13 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="EmployeeCard" Height="650" Width="1100">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Column="0"
@@ -19,8 +18,8 @@
             HorizontalAlignment="Center">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel
                     Grid.Column="0"
@@ -28,76 +27,62 @@
                     <TextBlock
                         Text="Имя: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Фамилия: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Отчество: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Дата Рождения"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Должность: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Статус: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Text="Логин: "
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                 </StackPanel>
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock
                         Name="TextBlockFN"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockSN"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockLN"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockBirthday"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockRole"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockStatus"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                     <TextBlock
                         Name="TextBlockLogin"
                         FontSize="16"
-                        Margin="0 0 0 10">
-                    </TextBlock>
+                        Margin="0 0 0 10" />
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -111,24 +96,20 @@
                     Name="ImagePhoto"
                     Width="180"
                     Height="299"
-                    Margin="10">
-                </Image>
-                <TextBlock 
+                    Margin="10" />
+                <TextBlock
                     Name="ImagePhotoSign"
-                    HorizontalAlignment="Center">
-                </TextBlock>
+                    HorizontalAlignment="Center" />
             </StackPanel>
             <StackPanel>
                 <Image
                     Name="ImageScan"
                     Width="180"
                     Height="299"
-                    Margin="10">
-                </Image>
-                <TextBlock 
+                    Margin="10" />
+                <TextBlock
                     Name="ImageScanSign"
-                    HorizontalAlignment="Center">
-                </TextBlock>
+                    HorizontalAlignment="Center" />
             </StackPanel>
         </StackPanel>
     </Grid>

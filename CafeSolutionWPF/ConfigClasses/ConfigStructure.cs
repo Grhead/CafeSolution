@@ -11,5 +11,4 @@ public class Secrets
     public string DbUser { get; set; }
     public string DbPassword { get; set; }
     public string DbDatabase { get; set; }
-    
 }

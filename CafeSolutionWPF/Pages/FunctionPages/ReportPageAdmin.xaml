@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="ReportPage" Height="650" Width="1100">
     <Grid>
@@ -17,8 +16,7 @@
                 BorderThickness="1"
                 BorderBrush="Black"
                 Background="Tomato"
-                Click="PdfBtnGet_OnClick">
-            </Button>
+                Click="PdfBtnGet_OnClick" />
             <Button
                 Name="XlsxBtnGet"
                 Content="Отчет о заказах, полученных от клиентов XLSX"
@@ -27,8 +25,7 @@
                 BorderBrush="Black"
                 Background="ForestGreen"
                 Foreground="White"
-                Click="XlsxBtnGet_OnClick">
-            </Button>
+                Click="XlsxBtnGet_OnClick" />
             <Button
                 Name="PdfBtnPaid"
                 Content="Отчет о заказах, оплаченных клиентами  PDF"
@@ -36,8 +33,7 @@
                 BorderThickness="1"
                 BorderBrush="Black"
                 Background="Tomato"
-                Click="PdfBtnPaid_OnClick">
-            </Button>
+                Click="PdfBtnPaid_OnClick" />
             <Button
                 Name="XlsxBtnPaid"
                 Content="Отчет о заказах, оплаченных клиентами  XLSX"
@@ -45,8 +41,7 @@
                 BorderBrush="Black"
                 Background="ForestGreen"
                 Foreground="White"
-                Click="XlsxBtnPaid_OnClick">
-            </Button>
+                Click="XlsxBtnPaid_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

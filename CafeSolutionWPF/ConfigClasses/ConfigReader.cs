@@ -1,7 +1,4 @@
-using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -9,7 +6,8 @@ namespace CafeSolutionWPF.ConfigClasses;
 
 public class ConfigReader
 {
-    public static ConfigStructure ParseSecrets() {
+    public static ConfigStructure ParseSecrets()
+    {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();

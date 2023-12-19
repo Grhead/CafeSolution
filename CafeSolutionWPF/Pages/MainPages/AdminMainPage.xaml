@@ -5,43 +5,39 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="AdminMainPage" Height="650" Width="1100">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
         <Border
             Grid.Column="0"
             Grid.Row="0"
             BorderBrush="Black"
-            BorderThickness="0 0 0 1">
-        </Border>
+            BorderThickness="0 0 0 1" />
         <StackPanel
             Grid.Column="0"
             Grid.Row="0"
             Orientation="Horizontal"
             HorizontalAlignment="Left"
             VerticalAlignment="Center">
-            <Button 
+            <Button
                 Content="Выйти"
                 Command="{Binding ExitBtn}"
-                Width="80">
-            </Button>
-            <TextBlock 
+                Width="80" />
+            <TextBlock
                 Text="{Binding SelfLogin}"
                 FontSize="14"
                 TextDecorations="Underline"
                 Margin="10 0 0 0"
                 TextAlignment="Center"
-                VerticalAlignment="Center">
-            </TextBlock>
+                VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
@@ -53,72 +49,63 @@
                 Content="Список сотрудников"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding EmployeeListBtn}">
-            </Button>
+                Command="{Binding EmployeeListBtn}" />
             <Button
                 Name="OrdersListBtn"
                 HorizontalAlignment="Center"
                 Content="Список заказов"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding OrderListBtn}">
-            </Button>
+                Command="{Binding OrderListBtn}" />
             <Button
                 Name="ShiftInfoBtn"
                 HorizontalAlignment="Center"
                 Content="Смены: информация"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding ShiftInfoBtn}">
-            </Button>
+                Command="{Binding ShiftInfoBtn}" />
             <Button
                 Name="ShiftsListBtn"
                 HorizontalAlignment="Center"
                 Content="Список смен (Н)"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding ShiftListBtn}">
-            </Button>
+                Command="{Binding ShiftListBtn}" />
             <Button
                 Name="TablesListBtn"
                 HorizontalAlignment="Center"
                 Content="Столики"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding TablesListBtn}">
-            </Button>
+                Command="{Binding TablesListBtn}" />
             <Button
                 Name="CreateShiftBtn"
                 HorizontalAlignment="Center"
                 Content="Создать смену"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding NewShiftBtn}">
-            </Button>
+                Command="{Binding NewShiftBtn}" />
             <Button
                 Name="DismissBtn"
                 HorizontalAlignment="Center"
                 Content="Уволить"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding DismissBtn}">
-            </Button>
+                Command="{Binding DismissBtn}" />
             <Button
                 Name="HireEmployeeBtn"
                 HorizontalAlignment="Center"
                 Content="Нанять"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding HireEmployeeBtn}">
-            </Button>
+                Command="{Binding HireEmployeeBtn}" />
             <Button
                 Name="ReportBtn"
                 HorizontalAlignment="Center"
                 Content="Отчёт"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding ReportBtn}">
-            </Button>
+                Command="{Binding ReportBtn}" />
         </StackPanel>
         <TextBlock
             Grid.Row="0"
@@ -126,8 +113,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="18"
-            Text="{Binding SelectedPage}">
-        </TextBlock>
+            Text="{Binding SelectedPage}" />
         <Frame
             Name="AdminFrame"
             Grid.Row="1"
@@ -135,7 +121,6 @@
             Source=""
             BorderBrush="Black"
             BorderThickness="1 0 0 0"
-            NavigationUIVisibility="Hidden">
-        </Frame>
+            NavigationUIVisibility="Hidden" />
     </Grid>
 </Page>

@@ -3,20 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.FunctionPages"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BillPage">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -26,62 +25,50 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <TextBlock
-                Text="Заказ № ">
-            </TextBlock>
+                Text="Заказ № " />
             <TextBlock
                 Name="TextBlockOrder"
-                Margin="0 0 20 0">
-            </TextBlock>
+                Margin="0 0 20 0" />
             <TextBlock
-                Text="Сумма: ">
-            </TextBlock>
+                Text="Сумма: " />
             <TextBlock
-                Name="TextBlockAmount">
-            </TextBlock>
+                Name="TextBlockAmount" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
-            <TextBlock></TextBlock>
+            <TextBlock />
             <ComboBox
-                Name="ComboBoxStatuses"></ComboBox>
+                Name="ComboBoxStatuses" />
             <StackPanel
                 Orientation="Horizontal">
                 <Button
                     Content="Чек PDF"
-                    Click="ButtonBase_OnClick">
-                </Button>
+                    Click="ButtonBase_OnClick" />
             </StackPanel>
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
             VerticalAlignment="Center">
-            <TextBlock 
-                Text="Количество клиентов">
-            </TextBlock>
             <TextBlock
-                Name="TextBlockCustomersCount">
-            </TextBlock>
-            <TextBlock 
-                Text="Номер столика">
-            </TextBlock>
+                Text="Количество клиентов" />
             <TextBlock
-                Name="TextBlockTable">
-            </TextBlock>
-            <TextBlock 
-                Text="Статус приготовления">
-            </TextBlock>
+                Name="TextBlockCustomersCount" />
             <TextBlock
-                Name="TextBlockStatus">
-            </TextBlock>
+                Text="Номер столика" />
+            <TextBlock
+                Name="TextBlockTable" />
+            <TextBlock
+                Text="Статус приготовления" />
+            <TextBlock
+                Name="TextBlockStatus" />
         </StackPanel>
         <ListBox
             Grid.Row="1"
             Grid.Column="2"
-            Name="ListBoxDishesInOrder">
-        </ListBox>
+            Name="ListBoxDishesInOrder" />
     </Grid>
 </Page>

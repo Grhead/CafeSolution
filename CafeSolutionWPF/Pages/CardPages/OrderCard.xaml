@@ -5,63 +5,57 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.CardPages"
       mc:Ignorable="d"
       Title="OrderCard" Height="650" Width="1100">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
         <Border
             Grid.Column="0"
             Grid.Row="0"
             BorderBrush="Black"
-            BorderThickness="0 0 0 1">
-        </Border>
+            BorderThickness="0 0 0 1" />
         <StackPanel
             Grid.Row="0"
             Orientation="Horizontal"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <TextBlock 
+            <TextBlock
                 Text="Номер заказа: "
-                FontSize="18"></TextBlock>
-            <TextBlock 
+                FontSize="18" />
+            <TextBlock
                 Name="TextBlockOrderId"
                 FontSize="18"
                 Margin="0 0 20 0"
-                TextDecorations="Underline"></TextBlock>
+                TextDecorations="Underline" />
             <TextBlock
                 Text="Статус заказа: "
-                FontSize="18"></TextBlock>
+                FontSize="18" />
             <TextBlock
                 Name="TextBlockStatus"
                 FontSize="18"
-                TextDecorations="Underline">
-            </TextBlock>
+                TextDecorations="Underline" />
         </StackPanel>
-        <StackPanel 
+        <StackPanel
             Grid.Row="1"
             VerticalAlignment="Center">
-            <ListBox 
-                Name="ListBoxDishes" 
+            <ListBox
+                Name="ListBoxDishes"
                 Height="200"
-                Width="400">
-            </ListBox>
-            <StackPanel 
+                Width="400" />
+            <StackPanel
                 Orientation="Horizontal"
                 HorizontalAlignment="Center"
                 Margin="0 20 0 0">
                 <ComboBox
                     Width="180"
-                    Name="ComboBoxDishes">
-                </ComboBox>
+                    Name="ComboBoxDishes" />
                 <Button
                     Margin="10 0 0 0"
                     Content="Изменить"
-                    Click="ButtonBase_OnClick">
-                </Button>
+                    Click="ButtonBase_OnClick" />
             </StackPanel>
         </StackPanel>
     </Grid>

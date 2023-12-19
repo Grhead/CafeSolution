@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
-public partial class Order
+public class Order
 {
     public int Id { get; set; }
 

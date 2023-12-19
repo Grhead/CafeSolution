@@ -12,9 +12,10 @@ public partial class OrdersListAdmin : Page
     {
         InitializeComponent();
         DataContext = new CookViewModel();
-        CookEndPoints newCook = new CookEndPoints();
-        WaiterEndPoints newWaiter = new WaiterEndPoints();
-        foreach (var item in newWaiter.GetAllOrdersPerShift(GeneralEndPoints.GetCurrentShift().Id, Navigation.ClientSession.Id))
+        var newCook = new CookEndPoints();
+        var newWaiter = new WaiterEndPoints();
+        foreach (var item in newWaiter.GetAllOrdersPerShift(GeneralEndPoints.GetCurrentShift().Id,
+                     Navigation.ClientSession.Id))
         {
             var newOrderString = item.Id;
             ListBoxOrders.Items.Insert(ListBoxOrders.Items.Count, newOrderString);
@@ -23,8 +24,8 @@ public partial class OrdersListAdmin : Page
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminViewModel newAdmin = new AdminViewModel();
-        AdminEndPoints newAdminFunc = new AdminEndPoints();
+        var newAdmin = new AdminViewModel();
+        var newAdminFunc = new AdminEndPoints();
         if (ListBoxOrders.SelectedItem != null)
         {
             Navigation.selectedOrder = newAdminFunc.GetOrder((int)ListBoxOrders.SelectedItem);

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
-public partial class TablePaymentType
+public class TablePaymentType
 {
     public int Id { get; set; }
 

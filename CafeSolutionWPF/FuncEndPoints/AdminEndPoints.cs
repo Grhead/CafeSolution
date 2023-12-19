@@ -1,25 +1,15 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.IO.Packaging;
-using System.Linq;
 using System.Text;
-using System.Windows;
 using Aspose.Cells;
+using CafeSolutionWPF.Data;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
-using CafeSolutionWPF.Data;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.Win32;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf.Structure;
 using Font = iTextSharp.text.Font;
-using PdfDocument = PdfSharp.Pdf.PdfDocument;
 
 namespace CafeSolutionWPF.FuncEndPoints;
 
@@ -27,8 +17,8 @@ public class AdminEndPoints : IAdminEp
 {
     public ObservableCollection<EmployeeDto> GetEmployeesList()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<EmployeeDto> employees = new ObservableCollection<EmployeeDto>(db.Employees
+        using var db = new DatabaseContext();
+        var employees = new ObservableCollection<EmployeeDto>(db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .Select(x => new EmployeeDto
@@ -40,15 +30,14 @@ public class AdminEndPoints : IAdminEp
                 Role = x.Role.Title,
                 Status = x.Status.Title,
                 Login = x.Login
-                
             }).ToList());
         return employees;
     }
 
     public ObservableCollection<Employee> GetWorkEmployeesList()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Employee> employees = new ObservableCollection<Employee>(db.Employees
+        using var db = new DatabaseContext();
+        var employees = new ObservableCollection<Employee>(db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .ToList());
@@ -57,8 +46,8 @@ public class AdminEndPoints : IAdminEp
 
     public ObservableCollection<Order> GetAllOrders()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Order> allOrders = new ObservableCollection<Order>(db.Orders
+        using var db = new DatabaseContext();
+        var allOrders = new ObservableCollection<Order>(db.Orders
             .Include(x => x.Table)
             .Include(x => x.PaymentStatus)
             .Include(x => x.CookingStatus)
@@ -69,15 +58,15 @@ public class AdminEndPoints : IAdminEp
 
     public ObservableCollection<Shift> GetAllShifts()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Shift> allShifts = new ObservableCollection<Shift>(db.Shifts.ToList());
+        using var db = new DatabaseContext();
+        var allShifts = new ObservableCollection<Shift>(db.Shifts.ToList());
         return allShifts;
     }
 
     public Order GetOrder(int orderId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Order selectedOrder = db.Orders
+        using var db = new DatabaseContext();
+        var selectedOrder = db.Orders
             .Include(x => x.Table)
             .Include(x => x.CookingStatus)
             .Include(x => x.DishesInOrders)
@@ -89,10 +78,10 @@ public class AdminEndPoints : IAdminEp
 
     public EmployeeDto CreateEmployee(Employee employee)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         db.Employees.Add(employee);
         db.SaveChanges();
-        EmployeeDto checkEmployee = db.Employees
+        var checkEmployee = db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .Select(x => new EmployeeDto
@@ -103,7 +92,6 @@ public class AdminEndPoints : IAdminEp
                 Birthday = x.Birthday,
                 Role = x.Role.Title,
                 Status = x.Status.Title
-
             }).Where(x => x.FirstName == employee.FirstName
                           && x.SecondName == employee.SecondName
                           && x.Birthday == employee.Birthday).FirstOrDefault();
@@ -112,10 +100,10 @@ public class AdminEndPoints : IAdminEp
 
     public bool AddEmployeePhoto(string photo, int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         try
         {
-            Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            var updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
             updateEmployee.Photo = photo;
             db.SaveChanges();
         }
@@ -129,10 +117,10 @@ public class AdminEndPoints : IAdminEp
 
     public bool AddEmployeeScan(string photo, int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         try
         {
-            Employee updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            var updateEmployee = db.Employees.FirstOrDefault(x => x.Id == employeeId);
             updateEmployee.ContractScan = photo;
             db.SaveChanges();
             db.SaveChanges();
@@ -147,22 +135,22 @@ public class AdminEndPoints : IAdminEp
 
     public string GetEmployeePhoto(int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        string employeePhoto = db.Employees.FirstOrDefault(x => x.Id == employeeId).Photo;
+        using var db = new DatabaseContext();
+        var employeePhoto = db.Employees.FirstOrDefault(x => x.Id == employeeId).Photo;
         return employeePhoto;
     }
 
     public string GetEmployeeScan(int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        string employeeScan = db.Employees.FirstOrDefault(x => x.Id == employeeId).ContractScan;
+        using var db = new DatabaseContext();
+        var employeeScan = db.Employees.FirstOrDefault(x => x.Id == employeeId).ContractScan;
         return employeeScan;
     }
 
     public ObservableCollection<Order> GetAllOrdersPerShift(int shiftId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Order> AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
+        using var db = new DatabaseContext();
+        var AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -177,58 +165,30 @@ public class AdminEndPoints : IAdminEp
             .ToList());
         return AllOrdersPerShift;
     }
+
     public bool CreateReportOrdersPerShift(int shiftId, string savePath)
     {
-        ObservableCollection<Order> allOrders = GetAllOrdersPerShift(shiftId);
+        var allOrders = GetAllOrdersPerShift(shiftId);
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Document document = new Document();
+        var document = new Document();
         PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
-        BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
-        Font font = new Font(baseFont, 16);
+        var baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+        var font = new Font(baseFont, 16);
         document.Open();
         document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
 
         foreach (var item in allOrders)
         {
-            document.Add(new Paragraph(new Phrase($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}", font)));
+            document.Add(new Paragraph(new Phrase(
+                $"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}",
+                font)));
             foreach (var dish in item.DishesInOrders)
-            {
-                document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
-            }
+                document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}",
+                    font)));
         }
-        
+
         document.Close();
-            
-        return true;
-    }
-    
-    public bool CreateReportOrdersPerShiftXLSX (int shiftId, string savePath)
-    {
-        ObservableCollection<Order> allOrders = GetAllOrdersPerShift(shiftId);
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-       
-        Workbook wb = new Workbook();
-        Worksheet sheet = wb.Worksheets[0];
 
-        Cell cell = sheet.Cells["A1"];
-        cell.PutValue($"Смена №{shiftId}");
-            
-        int countC = 1;
-        foreach (var item in allOrders)
-        {
-            cell = sheet.Cells[$"C{countC}"];
-            cell.PutValue($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
-            foreach (var dish in item.DishesInOrders)
-            {
-                cell = sheet.Cells[$"D{countC}"];
-                cell.PutValue($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}");
-                countC += 1;
-            }
-
-            countC += 2;
-        }
-        wb.Save(savePath, SaveFormat.Xlsx);
-            
         return true;
     }
 
@@ -236,8 +196,8 @@ public class AdminEndPoints : IAdminEp
     {
         if (shiftDate < DateTime.Today.AddDays(5) && employees.Count > 3 && employees.Count < 8)
         {
-            using DatabaseContext db = new DatabaseContext();
-            Shift newShift = new Shift
+            using var db = new DatabaseContext();
+            var newShift = new Shift
             {
                 ShiftDate = shiftDate
             };
@@ -245,7 +205,7 @@ public class AdminEndPoints : IAdminEp
             db.SaveChanges();
             foreach (var item in employees)
             {
-                EmployeesAtShift addEmployeeAtShift = new EmployeesAtShift
+                var addEmployeeAtShift = new EmployeesAtShift
                 {
                     ShiftId = newShift.Id,
                     EmployeeId = item.Id
@@ -258,13 +218,12 @@ public class AdminEndPoints : IAdminEp
         }
 
         return null;
-
     }
 
     public EmployeeDto GetEmployeeInfoDto(int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        EmployeeDto getEmployee = db.Employees
+        using var db = new DatabaseContext();
+        var getEmployee = db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .Where(x => x.Id == employeeId)
@@ -276,15 +235,14 @@ public class AdminEndPoints : IAdminEp
                 Birthday = x.Birthday,
                 Role = x.Role.Title,
                 Status = x.Status.Title
-
             }).FirstOrDefault();
         return getEmployee;
     }
-    
+
     public Employee GetEmployeeInfo(string employeeLogin)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Employee getEmployee = db.Employees
+        using var db = new DatabaseContext();
+        var getEmployee = db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .Where(x => x.Login == employeeLogin)
@@ -294,8 +252,8 @@ public class AdminEndPoints : IAdminEp
 
     public ShiftDto GetShiftInfo(int shiftId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        ShiftDto getShift = db.Shifts
+        using var db = new DatabaseContext();
+        var getShift = db.Shifts
             .Include(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Employee)
             .Select(x => new ShiftDto
@@ -303,14 +261,13 @@ public class AdminEndPoints : IAdminEp
                 ShiftDate = x.ShiftDate
             })
             .FirstOrDefault();
-        
+
         getShift.EmployeesAtShift = new ObservableCollection<Employee>(db.EmployeesAtShifts
             .Where(x => x.ShiftId == shiftId)
             .Select(x => x.Employee)
             .ToList());
         decimal totalAmount = 0;
         foreach (var item in getShift.EmployeesAtShift)
-        {
             totalAmount += (decimal)db.Dishes
                 .Include(x => x.DishesInOrders)
                 .ThenInclude(x => x.Order)
@@ -320,31 +277,28 @@ public class AdminEndPoints : IAdminEp
                 .ThenInclude(x => x.EmployeesAtShifts)
                 .ThenInclude(x => x.Shift)
                 .Sum(x => x.Price);
-        }
 
         getShift.AmountByShift = totalAmount;
         return getShift;
     }
 
-    
+
     // TODO Duplicate with ~AddDish WaiterEndPoints
     public bool ChangeOrderDetails(int orderId, ObservableCollection<Dish> newDishInOrder)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Order orderLetsChange = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        using var db = new DatabaseContext();
+        var orderLetsChange = db.Orders.FirstOrDefault(x => x.Id == orderId);
         try
         {
             if (orderLetsChange.PaymentStatusId != 2)
-            {
                 foreach (var item in newDishInOrder)
                 {
-                    DishesInOrder newDish = new DishesInOrder();
+                    var newDish = new DishesInOrder();
                     newDish.OrderId = orderId;
                     newDish.Dish = item;
                     db.DishesInOrders.Add(newDish);
                     db.SaveChanges();
-                }    
-            }
+                }
         }
         catch (Exception e)
         {
@@ -361,7 +315,7 @@ public class AdminEndPoints : IAdminEp
         //     .Include(x => x.Employee)
         //     .Include(x => x.Shift)
         //     .Select());
-        ObservableCollection<EmployeeInShift> newList = new ObservableCollection<EmployeeInShift>();
+        var newList = new ObservableCollection<EmployeeInShift>();
         return newList;
     }
 
@@ -369,8 +323,8 @@ public class AdminEndPoints : IAdminEp
     {
         try
         {
-            using DatabaseContext db = new DatabaseContext();
-            EmployeesAtShift newEmpInShift = new EmployeesAtShift();
+            using var db = new DatabaseContext();
+            var newEmpInShift = new EmployeesAtShift();
             newEmpInShift.ShiftId = shiftId;
             newEmpInShift.EmployeeId = employeeId;
             db.EmployeesAtShifts.Add(newEmpInShift);
@@ -380,6 +334,7 @@ public class AdminEndPoints : IAdminEp
         {
             return false;
         }
+
         return true;
     }
 
@@ -387,8 +342,8 @@ public class AdminEndPoints : IAdminEp
     {
         try
         {
-            using DatabaseContext db = new DatabaseContext();
-            Employee nextDismiss = db.Employees.FirstOrDefault(x => x.Id == employeeId);
+            using var db = new DatabaseContext();
+            var nextDismiss = db.Employees.FirstOrDefault(x => x.Id == employeeId);
             nextDismiss.StatusId = 2;
             db.SaveChanges();
         }
@@ -396,14 +351,46 @@ public class AdminEndPoints : IAdminEp
         {
             return false;
         }
-        
+
+        return true;
+    }
+
+    public bool CreateReportOrdersPerShiftXLSX(int shiftId, string savePath)
+    {
+        var allOrders = GetAllOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        var wb = new Workbook();
+        var sheet = wb.Worksheets[0];
+
+        var cell = sheet.Cells["A1"];
+        cell.PutValue($"Смена №{shiftId}");
+
+        var countC = 1;
+        foreach (var item in allOrders)
+        {
+            cell = sheet.Cells[$"C{countC}"];
+            cell.PutValue(
+                $"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
+            foreach (var dish in item.DishesInOrders)
+            {
+                cell = sheet.Cells[$"D{countC}"];
+                cell.PutValue($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}");
+                countC += 1;
+            }
+
+            countC += 2;
+        }
+
+        wb.Save(savePath, SaveFormat.Xlsx);
+
         return true;
     }
 
     public void ChangeOrderDetails(int orderId, int customersCount, int tableNumber, int statusCook)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        using var db = new DatabaseContext();
+        var order = db.Orders.FirstOrDefault(x => x.Id == orderId);
         order.TableId = db.Tables.FirstOrDefault(x => x.TableNumber == tableNumber).Id;
         order.NumberOfCustomers = customersCount;
         order.CookingStatusId = statusCook;
@@ -412,18 +399,18 @@ public class AdminEndPoints : IAdminEp
 
     public void SetEmployeeToTable(int employeeId, int tableId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        EmployeesAtTable newEmpAtTable = new EmployeesAtTable();
+        using var db = new DatabaseContext();
+        var newEmpAtTable = new EmployeesAtTable();
         newEmpAtTable.TableId = tableId;
         newEmpAtTable.EmployeeId = employeeId;
         db.EmployeesAtTables.Add(newEmpAtTable);
         db.SaveChanges();
     }
-    
+
     public ObservableCollection<EmployeesAtTable> GetEmployeesAtTables()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<EmployeesAtTable> newList = new ObservableCollection<EmployeesAtTable>(db.EmployeesAtTables
+        using var db = new DatabaseContext();
+        var newList = new ObservableCollection<EmployeesAtTable>(db.EmployeesAtTables
             .Include(x => x.Employee)
             .Include(x => x.Table));
         return newList;
@@ -431,19 +418,20 @@ public class AdminEndPoints : IAdminEp
 
     public int GetEmployee(string login)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         return db.Employees.FirstOrDefault(x => x.Login == login).Id;
     }
+
     public Employee GetWholeEmployee(int employeeId)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         return db.Employees.FirstOrDefault(x => x.Id == employeeId);
     }
-    
+
     public ObservableCollection<Order> GetPaidOrdersPerShift(int shiftId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Order> AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
+        using var db = new DatabaseContext();
+        var AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -458,49 +446,51 @@ public class AdminEndPoints : IAdminEp
             .ToList());
         return AllOrdersPerShift;
     }
-    
-    public bool CreateReportPaidOrdersPerShift (int shiftId, string savePath)
+
+    public bool CreateReportPaidOrdersPerShift(int shiftId, string savePath)
     {
-        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId);
+        var allOrders = GetPaidOrdersPerShift(shiftId);
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Document document = new Document();
-            PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
-            BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
-            Font font = new Font(baseFont, 16);
-            document.Open();
-            
-            document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
+        var document = new Document();
+        PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
+        var baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+        var font = new Font(baseFont, 16);
+        document.Open();
 
-            foreach (var item in allOrders)
-            {
-                document.Add(new Paragraph(new Phrase($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}", font)));
-                foreach (var dish in item.DishesInOrders)
-                {
-                    document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
+        document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
 
-                }
-            }
-            document.Close();
-            
+        foreach (var item in allOrders)
+        {
+            document.Add(new Paragraph(new Phrase(
+                $"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}",
+                font)));
+            foreach (var dish in item.DishesInOrders)
+                document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}",
+                    font)));
+        }
+
+        document.Close();
+
         return true;
     }
-    
-    public bool CreateReportPaidOrdersPerShiftXLSX (int shiftId, string savePath)
-    {
-        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId);
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-       
-        Workbook wb = new Workbook();
-        Worksheet sheet = wb.Worksheets[0];
 
-        Cell cell = sheet.Cells["A1"];
+    public bool CreateReportPaidOrdersPerShiftXLSX(int shiftId, string savePath)
+    {
+        var allOrders = GetPaidOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        var wb = new Workbook();
+        var sheet = wb.Worksheets[0];
+
+        var cell = sheet.Cells["A1"];
         cell.PutValue($"Смена №{shiftId}");
-            
-        int countC = 1;
+
+        var countC = 1;
         foreach (var item in allOrders)
         {
             cell = sheet.Cells[$"C{countC}"];
-            cell.PutValue($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
+            cell.PutValue(
+                $"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
             foreach (var dish in item.DishesInOrders)
             {
                 cell = sheet.Cells[$"D{countC}"];
@@ -510,8 +500,9 @@ public class AdminEndPoints : IAdminEp
 
             countC += 2;
         }
+
         wb.Save(savePath, SaveFormat.Xlsx);
-            
+
         return true;
     }
 }

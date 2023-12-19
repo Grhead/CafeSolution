@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Models;
@@ -18,7 +17,7 @@ public interface IAdminEp
     string GetEmployeePhoto(int employeeId);
     string GetEmployeeScan(int employeeId);
     ObservableCollection<Order> GetAllOrdersPerShift(int shiftId);
-    
+
     //nothing to return. Bool is process result
     bool CreateReportOrdersPerShift(int shiftId, string filePath);
     Shift CreateShift(DateTime shiftDate, ObservableCollection<Employee> employees);
@@ -26,7 +25,7 @@ public interface IAdminEp
     Employee GetEmployeeInfo(string employeeLogin);
     ShiftDto GetShiftInfo(int shiftId);
     bool Dismiss(int employeeId);
-    bool ChangeOrderDetails (int orderId, ObservableCollection<Dish> newDishInOrder);
+    bool ChangeOrderDetails(int orderId, ObservableCollection<Dish> newDishInOrder);
     ObservableCollection<EmployeeInShift> GetEmployeesByShift(int shiftId);
     bool AddEmployeeToShift(int shiftId, int employeeId);
 }

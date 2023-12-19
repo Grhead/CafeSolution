@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.FunctionPages"
       mc:Ignorable="d"
       Title="ReportPageWaiter" Height="450" Width="800">
     <Grid>
@@ -16,15 +15,13 @@
                 Margin="0 0 0 20"
                 BorderThickness="1"
                 BorderBrush="Black"
-                Click="PdfBtn_OnClick">
-            </Button>
+                Click="PdfBtn_OnClick" />
             <Button
                 Name="XlsxBtn"
                 Content="Отчет о принятых заказах в период одной смены XLSX"
                 BorderThickness="1"
                 BorderBrush="Black"
-                Click="XlsxBtn_OnClick">
-            </Button>
+                Click="XlsxBtn_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

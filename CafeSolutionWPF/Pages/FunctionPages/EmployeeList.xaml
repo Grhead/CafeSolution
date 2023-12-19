@@ -3,17 +3,16 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
-      
+
       mc:Ignorable="d"
       Title="EmployeeList" Height="650" Width="1100">
     <Grid>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <ListBox 
+            <ListBox
                 Name="ListBoxOrders"
                 Height="300">
                 <ListBox.ItemTemplate>
@@ -31,8 +30,7 @@
                 Margin="0 10 0 0"
                 Content="Посмотреть карточку сотрудника"
                 HorizontalAlignment="Center"
-                Click="ButtonBase_OnClick">
-            </Button>
+                Click="ButtonBase_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

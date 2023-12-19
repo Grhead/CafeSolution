@@ -6,9 +6,9 @@ namespace CafeSolutionWPF.ViewModels;
 
 public class GeneralViewModel
 {
-    public string Login { get; set; }
-    
     private RelayCommand _applyBtn;
+    public string Login { get; set; }
+
     public RelayCommand ApplyBtn => _applyBtn ?? (_applyBtn = new RelayCommand(x =>
     {
         var passwordBox = x as PasswordBox;

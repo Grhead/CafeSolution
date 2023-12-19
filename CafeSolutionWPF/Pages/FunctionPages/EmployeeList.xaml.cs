@@ -12,16 +12,13 @@ public partial class EmployeeList : Page
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
-        AdminViewModel newAdmin = new AdminViewModel();
-        foreach (var item in newAdmin.GetAllEmployees())
-        {
-            ListBoxOrders.Items.Insert(ListBoxOrders.Items.Count, item);
-        }
+        var newAdmin = new AdminViewModel();
+        foreach (var item in newAdmin.GetAllEmployees()) ListBoxOrders.Items.Insert(ListBoxOrders.Items.Count, item);
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminViewModel newAdmin = new AdminViewModel();
+        var newAdmin = new AdminViewModel();
         if (ListBoxOrders.SelectedItem != null)
         {
             Navigation.selectedEmployee = (EmployeeDto)ListBoxOrders.SelectedItem;

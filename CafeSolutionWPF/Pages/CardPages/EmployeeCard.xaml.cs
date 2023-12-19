@@ -12,7 +12,7 @@ public partial class EmployeeCard : Page
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
-        AdminEndPoints newAdmin = new AdminEndPoints();
+        var newAdmin = new AdminEndPoints();
         TextBlockFN.Text = Navigation.selectedEmployee.FirstName;
         TextBlockSN.Text = Navigation.selectedEmployee.SecondName;
         TextBlockLN.Text = Navigation.selectedEmployee.LastName;
@@ -24,12 +24,14 @@ public partial class EmployeeCard : Page
                               Navigation.selectedEmployee.FirstName +
                               Navigation.selectedEmployee.LastName;
         ImageScanSign.Text = "Скан " + Navigation.selectedEmployee.SecondName + " " +
-                              Navigation.selectedEmployee.FirstName + " " +
-                              Navigation.selectedEmployee.LastName;
-        
-        Uri imgUriScan = new Uri(newAdmin.GetEmployeeScan(newAdmin.GetEmployeeInfo(Navigation.selectedEmployee.Login).Id));
-        Uri imgUriPhoto = new Uri(newAdmin.GetEmployeePhoto(newAdmin.GetEmployeeInfo(Navigation.selectedEmployee.Login).Id));
-        
+                             Navigation.selectedEmployee.FirstName + " " +
+                             Navigation.selectedEmployee.LastName;
+
+        var imgUriScan =
+            new Uri(newAdmin.GetEmployeeScan(newAdmin.GetEmployeeInfo(Navigation.selectedEmployee.Login).Id));
+        var imgUriPhoto =
+            new Uri(newAdmin.GetEmployeePhoto(newAdmin.GetEmployeeInfo(Navigation.selectedEmployee.Login).Id));
+
         ImageSource imgScan = new BitmapImage(imgUriScan);
         ImageSource imgPhoto = new BitmapImage(imgUriPhoto);
         ImagePhoto.Source = imgPhoto;

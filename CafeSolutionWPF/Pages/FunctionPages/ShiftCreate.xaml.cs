@@ -13,11 +13,9 @@ public partial class ShiftCreate : Page
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
-        AdminEndPoints newAdmin = new AdminEndPoints();
+        var newAdmin = new AdminEndPoints();
         foreach (var item in newAdmin.GetWorkEmployeesList())
-        {
             ListBoxAll.Items.Insert(ListBoxAll.Items.Count, item.Login);
-        }
     }
 
     private void AddEmployeeBtn_OnClick(object sender, RoutedEventArgs e)
@@ -28,12 +26,10 @@ public partial class ShiftCreate : Page
 
     private void CreateShiftBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        ObservableCollection<Employee> pushCollection= new ObservableCollection<Employee>();
+        var newAdmin = new AdminEndPoints();
+        var pushCollection = new ObservableCollection<Employee>();
         foreach (var item in ListBoxCreate.Items)
-        {
             pushCollection.Add(newAdmin.GetWholeEmployee(newAdmin.GetEmployee(item.ToString())));
-        }
         newAdmin.CreateShift(Convert.ToDateTime(DateTimeUpDownPicker.Text), pushCollection);
     }
 }

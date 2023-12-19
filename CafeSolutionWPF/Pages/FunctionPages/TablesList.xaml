@@ -3,13 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.FunctionPages"
       mc:Ignorable="d"
       Title="TablesList" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel
             Grid.Column="0"
@@ -17,13 +16,11 @@
             VerticalAlignment="Center">
             <ComboBox
                 Name="ComboBoxTables"
-                Width="180">
-            </ComboBox>
+                Width="180" />
             <ListBox
                 Margin="0 20 0 0"
                 Name="ListBoxTables"
-                Height="180">
-            </ListBox>
+                Height="180" />
         </StackPanel>
         <StackPanel
             Grid.Column="1"
@@ -31,15 +28,13 @@
             VerticalAlignment="Center">
             <ComboBox
                 Name="ComboBoxEmployee"
-                Width="180">
-            </ComboBox>
+                Width="180" />
             <Button
                 Content="Назначить на столик"
                 BorderBrush="Black"
                 BorderThickness="1"
                 Margin="0 20 0 0"
-                Click="ButtonBase_OnClick">
-            </Button>
+                Click="ButtonBase_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

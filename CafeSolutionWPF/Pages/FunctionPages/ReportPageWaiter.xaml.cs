@@ -14,23 +14,25 @@ public partial class ReportPageWaiter : Page
 
     private void PdfBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        WaiterEndPoints newWaiter = new WaiterEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newWaiter = new WaiterEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;
-            newWaiter.CreateReportOrdersPerShift(GeneralEndPoints.GetCurrentShift().Id,Navigation.ClientSession.Id, folderName);
+            newWaiter.CreateReportOrdersPerShift(GeneralEndPoints.GetCurrentShift().Id, Navigation.ClientSession.Id,
+                folderName);
         }
     }
 
     private void XlsxBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        WaiterEndPoints newWaiter = new WaiterEndPoints();
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        var newWaiter = new WaiterEndPoints();
+        var saveFileDialog = new SaveFileDialog();
         if (saveFileDialog.ShowDialog() == true)
         {
             var folderName = saveFileDialog.FileName;
-            newWaiter.CreateReportOrdersPerShiftXLSX(GeneralEndPoints.GetCurrentShift().Id,Navigation.ClientSession.Id, folderName);
+            newWaiter.CreateReportOrdersPerShiftXLSX(GeneralEndPoints.GetCurrentShift().Id, Navigation.ClientSession.Id,
+                folderName);
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
-public partial class Shift
+public class Shift
 {
     public int Id { get; set; }
 
     public DateTime ShiftDate { get; set; }
 
-    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new ObservableCollection<EmployeesAtShift>();
+    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } =
+        new ObservableCollection<EmployeesAtShift>();
 }

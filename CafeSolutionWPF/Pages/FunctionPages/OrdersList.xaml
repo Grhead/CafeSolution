@@ -5,22 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="OrderLis" Height="650" Width="1100">
     <Grid>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <ListBox 
+            <ListBox
                 Name="ListBoxOrders"
-                Height="250">
-            </ListBox>
-            <Button 
+                Height="250" />
+            <Button
                 Content="Посмотреть заказ"
                 HorizontalAlignment="Center"
-                Click="ButtonBase_OnClick">
-            </Button>
+                Click="ButtonBase_OnClick" />
         </StackPanel>
     </Grid>
 </Page>

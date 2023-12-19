@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CafeSolutionWPF.Models;
 
-namespace CafeSolutionWPF.Models;
-
-public partial class EmployeesAtTable
+public class EmployeesAtTable
 {
     public int Id { get; set; }
 

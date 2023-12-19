@@ -1,18 +1,17 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CafeSolutionWPF.Data;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
-using CafeSolutionWPF.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CafeSolutionWPF.FuncEndPoints;
 
-public class CookEndPoints: ICookEp
+public class CookEndPoints : ICookEp
 {
     public ObservableCollection<Order> GetAllOrdersPerShift()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<Order> allOrdersPerShift = new ObservableCollection<Order>(db.Orders
+        using var db = new DatabaseContext();
+        var allOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -28,15 +27,15 @@ public class CookEndPoints: ICookEp
 
     public Order GetOrder(int orderId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Order selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        using var db = new DatabaseContext();
+        var selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
         return selectedOrder;
     }
 
     public Order ChangeCookingStatus(int orderId, int cookingStatusId)
     {
-        using DatabaseContext db = new DatabaseContext();
-        Order selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        using var db = new DatabaseContext();
+        var selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
         selectedOrder.CookingStatusId = cookingStatusId;
         db.SaveChanges();
         return selectedOrder;
@@ -44,26 +43,26 @@ public class CookEndPoints: ICookEp
 
     public ObservableCollection<TableCookingStatus> AllStatuses()
     {
-        using DatabaseContext db = new DatabaseContext();
-        ObservableCollection<TableCookingStatus> statuses = new ObservableCollection<TableCookingStatus>(db.TableCookingStatuses.ToList());
+        using var db = new DatabaseContext();
+        var statuses = new ObservableCollection<TableCookingStatus>(db.TableCookingStatuses.ToList());
         return statuses;
     }
-    
+
     public int GetDishId(string dishTitle)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         return db.TableCookingStatuses.FirstOrDefault(x => x.Title == dishTitle).Id;
     }
-    
+
     public ObservableCollection<Dish> GetDishesInOrder(int orderId)
     {
-        using DatabaseContext db = new DatabaseContext();
+        using var db = new DatabaseContext();
         return new ObservableCollection<Dish>(db.DishesInOrders
             .Include(x => x.Dish)
             .Where(x => x.OrderId == orderId)
             .Select(x => new Dish
-                {
-                    Title = x.Dish.Title
-                }));
+            {
+                Title = x.Dish.Title
+            }));
     }
 }

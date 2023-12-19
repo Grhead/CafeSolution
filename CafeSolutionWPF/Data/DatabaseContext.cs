@@ -6,6 +6,11 @@ namespace CafeSolutionWPF.Data;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+        Database.EnsureCreated();
+    }
+
     public DbSet<TableCookingStatus> TableCookingStatuses { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<DishesInOrder> DishesInOrders { get; set; }
@@ -20,11 +25,6 @@ public class DatabaseContext : DbContext
     public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
     public DbSet<Table> Tables { get; set; }
 
-    public DatabaseContext()
-    {
-        Database.EnsureCreated();
-    }
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder

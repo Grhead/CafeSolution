@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewmodels="clr-namespace:CafeSolutionWPF.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:GeneralViewModel}"
-      xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
       Title="AuthPage" Height="650" Width="1100">
     <Grid>
@@ -13,33 +12,30 @@
             Grid.Column="0"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
-            <TextBlock Text="Логин"></TextBlock>
+            <TextBlock Text="Логин" />
             <TextBox
                 BorderBrush="Black"
                 BorderThickness="1"
                 Margin="0 0 0 10"
                 MinWidth="180"
-                Text="{Binding Login}">
-            </TextBox>
-            <TextBlock Text="Пароль"></TextBlock>
+                Text="{Binding Login}" />
+            <TextBlock Text="Пароль" />
             <PasswordBox
                 Name="PassBox"
                 BorderBrush="Black"
                 Margin="0 0 0 10"
                 MinWidth="180"
-                BorderThickness="1">
-            </PasswordBox>
+                BorderThickness="1" />
             <Button
                 Name="ApplyButton"
                 Content="Войти"
-                IsDefault = "true"
+                IsDefault="true"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Margin="0 0 0 10"
                 MinWidth="180"
                 Command="{Binding ApplyBtn}"
-                CommandParameter="{Binding ElementName = PassBox}">
-            </Button>
+                CommandParameter="{Binding ElementName = PassBox}" />
         </StackPanel>
     </Grid>
 </Page>
