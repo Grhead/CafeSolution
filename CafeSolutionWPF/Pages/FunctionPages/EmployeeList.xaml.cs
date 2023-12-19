@@ -25,7 +25,7 @@ public partial class EmployeeList : Page
         if (ListBoxOrders.SelectedItem != null)
         {
             Navigation.selectedEmployee = (EmployeeDto)ListBoxOrders.SelectedItem;
-            Navigation.adminFrame.Navigate(new EmployeeSelfCard());
+            Navigation.adminFrame.Navigate(new EmployeeCard());
             newAdmin.SelectedPage = "Карточка сотрудника";
         }
     }

@@ -6,17 +6,16 @@ using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages.FunctionPages;
 
-public partial class OrdersListAdmin : Page
+public partial class OrdersListWaiter : Page
 {
-    public OrdersListAdmin()
+    public OrdersListWaiter()
     {
         InitializeComponent();
         DataContext = new CookViewModel();
-        CookEndPoints newCook = new CookEndPoints();
         WaiterEndPoints newWaiter = new WaiterEndPoints();
         foreach (var item in newWaiter.GetAllOrdersPerShift(GeneralEndPoints.GetCurrentShift().Id, Navigation.ClientSession.Id))
         {
-            var newOrderString = item.Id;
+            var newOrderString = item.Id + " Столик: " + item.Table.TableNumber + " Способ оплаты: " + item.PaymentStatus.Title + " Клиенты:  " + item.NumberOfCustomers;
             ListBoxOrders.Items.Insert(ListBoxOrders.Items.Count, newOrderString);
         }
     }
@@ -27,8 +26,9 @@ public partial class OrdersListAdmin : Page
         AdminEndPoints newAdminFunc = new AdminEndPoints();
         if (ListBoxOrders.SelectedItem != null)
         {
-            Navigation.selectedOrder = newAdminFunc.GetOrder((int)ListBoxOrders.SelectedItem);
-            Navigation.adminFrame.Navigate(new OrderCardAdmin());
+            Navigation.selectedOrder = newAdminFunc.GetOrder(Convert.ToInt32(ListBoxOrders.SelectedItem.ToString().Split()[0]));
+
+            Navigation.waiterFrame.Navigate(new BillPage());
             newAdmin.SelectedPage = "Карточка заказа";
         }
     }

@@ -7,6 +7,46 @@
       mc:Ignorable="d"
       Title="ReportPage" Height="650" Width="1100">
     <Grid>
-        
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Button
+                Name="PdfBtnGet"
+                Content="Отчет о заказах, полученных от клиентов PDF"
+                Margin="0 0 0 20"
+                BorderThickness="1"
+                BorderBrush="Black"
+                Background="Tomato"
+                Click="PdfBtnGet_OnClick">
+            </Button>
+            <Button
+                Name="XlsxBtnGet"
+                Content="Отчет о заказах, полученных от клиентов XLSX"
+                BorderThickness="1"
+                Margin="0 0 0 40"
+                BorderBrush="Black"
+                Background="ForestGreen"
+                Foreground="White"
+                Click="XlsxBtnGet_OnClick">
+            </Button>
+            <Button
+                Name="PdfBtnPaid"
+                Content="Отчет о заказах, оплаченных клиентами  PDF"
+                Margin="0 0 0 20"
+                BorderThickness="1"
+                BorderBrush="Black"
+                Background="Tomato"
+                Click="PdfBtnPaid_OnClick">
+            </Button>
+            <Button
+                Name="XlsxBtnPaid"
+                Content="Отчет о заказах, оплаченных клиентами  XLSX"
+                BorderThickness="1"
+                BorderBrush="Black"
+                Background="ForestGreen"
+                Foreground="White"
+                Click="XlsxBtnPaid_OnClick">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

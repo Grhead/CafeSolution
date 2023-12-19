@@ -1,13 +1,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
+using Aspose.Cells;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf;
+using Font = iTextSharp.text.Font;
+using PdfDocument = PdfSharp.Pdf.PdfDocument;
 
 namespace CafeSolutionWPF.FuncEndPoints;
 
@@ -68,18 +75,32 @@ public class WaiterEndPoints: IWaiterEp
         return selectedOrder;
     }
 
-    // TODO check format output
-    public BillDto CreateBill(int orderId, int employeeId)
+    public decimal CalcTotalAmount(int orderId)
     {
         using DatabaseContext db = new DatabaseContext();
         Order getOrder = GetOrder(orderId);
-        decimal? totalAmount = 0;
-        ObservableCollection<Dish> dishesInOrders = new ObservableCollection<Dish>();
+        decimal totalAmount = 0;
+        var q = getOrder.DishesInOrders;
         foreach (var item in getOrder.DishesInOrders)
         {
-            totalAmount += item.Dish.Price;
-            dishesInOrders.Add(item.Dish);
+            totalAmount += (decimal)item.Dish.Price;
         }
+
+        return totalAmount;
+    }
+
+    public BillDto CreateBill(int orderId, int employeeId, string savePath)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Order getOrder = GetOrder(orderId);
+        ObservableCollection<Dish> dishesInOrders =
+            new ObservableCollection<Dish>(db.DishesInOrders.Include(x => x.Dish).Where(x => x.OrderId == orderId).Select(x => new Dish()
+            {
+                Title = x.Dish.Title
+            }).ToList());
+        decimal totalAmount = CalcTotalAmount(orderId);
+        
         Employee servingWaiter = db.Employees.FirstOrDefault(x => x.Id == employeeId);
         BillDto resultBill = new BillDto
         {
@@ -91,39 +112,22 @@ public class WaiterEndPoints: IWaiterEp
             Amount = totalAmount
         };
         
-        var document = new PdfDocument();
-        var page = document.AddPage();
-        var gfx = XGraphics.FromPdfPage(page);
-        document.Info.Title = "Created with PDFsharp";
-        var filename = ($"{orderId}_{DateTime.Now.ToUniversalTime()}.pdf");
-        var font = new XFont("Times New Roman", 20, XFontStyleEx.BoldItalic);
-        int height = 50;
-        int width = 0;
-        gfx.DrawString($"Заказ №{orderId}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        width = width + 120;
-        gfx.DrawString($"Дата {resultBill.BillDate}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        height = height + 20;
-        width = 0;
-        gfx.DrawString($"Статус оплаты {resultBill.PaymentStatus}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        height = height + 20;
-        width = 0;
-        gfx.DrawString($"Метод оплаты {resultBill.PaymentType}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        height = height + 20;
-        width = 0;
-        gfx.DrawString($"Блюда:", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        height = height + 20;
-        width = 80;
+        Document document = new Document();
+        PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
+        BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+        Font font = new Font(baseFont, 16);
+        document.Open();
+        document.Add(new Paragraph(new Phrase($"Дата {resultBill.BillDate}", font)));
+        document.Add(new Paragraph(new Phrase($"Заказ №{orderId}", font)));
+        document.Add(new Paragraph(new Phrase($"Статус оплаты {resultBill.PaymentStatus}", font)));
+        document.Add(new Paragraph(new Phrase($"Метод оплаты {resultBill.PaymentType}", font)));
+        document.Add(new Paragraph(new Phrase("Блюда:", font)));
         foreach (var item in resultBill.DishesInBill)
         {
-            gfx.DrawString($": {item.Title}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            height = height + 20;
-            width = 80;
+            document.Add(new Paragraph(new Phrase($"   - {item.Title}", font)));
         }
-        gfx.DrawString($"Сумма: {resultBill.Amount}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-        height = height + 20;
-        width = 0;
-        document.Save(filename);
-        Process.Start(filename);
+        document.Add(new Paragraph(new Phrase($"Сумма: {resultBill.Amount}", font)));
+        document.Close();
         return resultBill;
     }
 
@@ -146,45 +150,62 @@ public class WaiterEndPoints: IWaiterEp
         return AllOrdersPerShift;
     }
     
-    // TODO check format output
-    public bool CreateReportOrdersPerShift(int shiftId, int employeeId)
+    public bool CreateReportOrdersPerShift(int shiftId, int employeeId, string savePath)
     {
         ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId, employeeId);
-        try
-        {
-            var document = new PdfDocument();
-            var page = document.AddPage();
-            var gfx = XGraphics.FromPdfPage(page);
-            document.Info.Title = "Created with PDFsharp";
-            var filename = ($"{shiftId}_{DateTime.Now.ToUniversalTime()}.pdf");
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Document document = new Document();
+            PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
+            BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+            Font font = new Font(baseFont, 16);
+            document.Open();
             
-            var font = new XFont("Times New Roman", 20, XFontStyleEx.BoldItalic);
-            int height = 50;
-            int width = 0;
-            gfx.DrawString($"Смена №{shiftId}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            width = width + 120;
-            gfx.DrawString($"Сотрудник №{employeeId}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            height = height + 20;
-            width = 0;
+            document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
+            document.Add(new Paragraph(new Phrase($"Сотрудник №{employeeId}", font)));
+
             foreach (var item in allOrders)
             {
-                gfx.DrawString($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus}; Тип оплаты{item.PaymentType}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-                height = height + 23;
-                width = 0;
+                document.Add(new Paragraph(new Phrase($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}", font)));
                 foreach (var dish in item.DishesInOrders)
                 {
-                    gfx.DrawString($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-                    height = height + 13;
-                    width = 0;
+                    document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
+
                 }
             }
-            document.Save(filename);
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
+            document.Close();
+            
+        return true;
+    }
+    
+    public bool CreateReportOrdersPerShiftXLSX (int shiftId, int employeeId, string savePath)
+    {
+        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId, employeeId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        
+        Workbook wb = new Workbook();
+        Worksheet sheet = wb.Worksheets[0];
 
+        Cell cell = sheet.Cells["A1"];
+        cell.PutValue($"Смена №{shiftId}");
+        cell = sheet.Cells["A2"];
+        cell.PutValue($"Сотрудник №{employeeId}");
+
+        int countC = 1;
+        foreach (var item in allOrders)
+        {
+            cell = sheet.Cells[$"C{countC}"];
+            cell.PutValue($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
+            foreach (var dish in item.DishesInOrders)
+            {
+                cell = sheet.Cells[$"D{countC}"];
+                cell.PutValue($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}");
+                countC += 1;
+            }
+
+            countC += 2;
+        }
+        wb.Save(savePath, SaveFormat.Xlsx);
+            
         return true;
     }
 
@@ -194,6 +215,8 @@ public class WaiterEndPoints: IWaiterEp
         Order selectedOrder = db.Orders
             .Include(x => x.PaymentStatus)
             .Include(x => x.PaymentType)
+            .Include(x => x.DishesInOrders)
+            .ThenInclude(x => x.Dish)
             .FirstOrDefault(x => x.Id == orderId);
         return selectedOrder;
     }
@@ -204,6 +227,13 @@ public class WaiterEndPoints: IWaiterEp
         Dish selectedDish = db.Dishes
             .FirstOrDefault(x => x.Title == dishTitle);
         return selectedDish;
+    }
+    
+    public Table GetTable(int tableTitle)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Table selectedTable = db.Tables.FirstOrDefault(x => x.TableNumber == tableTitle);
+        return selectedTable;
     }
 
     public ObservableCollection<DishesInOrder> AddDishToOrder(ObservableCollection<Dish> dishes, int orderId)
@@ -243,5 +273,15 @@ public class WaiterEndPoints: IWaiterEp
             {
                 TableNumber = x.Table.TableNumber
             }));
+    }
+    public ObservableCollection<TablePaymentType> GetAllPaymentTypes()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return new ObservableCollection<TablePaymentType>(db.TablePaymentTypes.ToList());
+    }
+    public int GetStatusId(string title)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return db.TablePaymentTypes.FirstOrDefault(x => x.Title == title).Id;
     }
 }

@@ -50,6 +50,13 @@
             VerticalAlignment="Center">
             <Button
                 HorizontalAlignment="Center"
+                Content="Моя страница"
+                Width="160"
+                Margin="0 0 0 10"
+                Command="{Binding MyPage}">
+            </Button>
+            <Button
+                HorizontalAlignment="Center"
                 Content="Создать заказ"
                 Width="160"
                 Margin="0 0 0 10"
@@ -62,13 +69,13 @@
                 Margin="0 0 0 10"
                 Command="{Binding OrderListBtn}">
             </Button>
-            <Button
-                HorizontalAlignment="Center"
-                Content="Чек!"
-                Width="160"
-                Margin="0 0 0 10"
-                Command="{Binding Bill}">
-            </Button>
+            <!-- <Button -->
+            <!--     HorizontalAlignment="Center" -->
+            <!--     Content="Чек!" -->
+            <!--     Width="160" -->
+            <!--     Margin="0 0 0 10" -->
+            <!--     Command="{Binding Bill}"> -->
+            <!-- </Button> -->
             <Button
                 HorizontalAlignment="Center"
                 Content="Отчёт"

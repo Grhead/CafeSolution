@@ -5,9 +5,9 @@ using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages;
 
-public partial class ShiftList : Page
+public partial class SetTablesPage : Page
 {
-    public ShiftList()
+    public SetTablesPage()
     {
         InitializeComponent();
         DataContext = new AdminViewModel();

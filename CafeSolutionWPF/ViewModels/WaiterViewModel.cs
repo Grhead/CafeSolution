@@ -1,4 +1,6 @@
+using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Pages;
+using CafeSolutionWPF.Pages.CardPages;
 using CafeSolutionWPF.Pages.FunctionPages;
 
 namespace CafeSolutionWPF.ViewModels;
@@ -31,6 +33,25 @@ public class WaiterViewModel : UpdateProperty
         Navigation.mainFrame.Navigate(new AuthPage());
         Navigation.ClientSession = null;
     }));
+    
+    private RelayCommand _myPage;
+
+    public RelayCommand MyPage => _myPage ?? (_myPage = new RelayCommand(x =>
+    {
+        
+        Navigation.selectedEmployee = new EmployeeDto()
+        {
+            FirstName = Navigation.ClientSession.FirstName,
+            SecondName = Navigation.ClientSession.SecondName,
+            LastName = Navigation.ClientSession.LastName,
+            Birthday = Navigation.ClientSession.Birthday,
+            Login = Navigation.ClientSession.Login,
+            Role = Navigation.ClientSession.Role.Title,
+            Status = Navigation.ClientSession.Status.Title
+        };
+        Navigation.waiterFrame.Navigate(new EmployeeCard());
+        SelectedPage = "Страница сотрудника";
+    }));
 
     private RelayCommand _createOrder;
 
@@ -44,7 +65,7 @@ public class WaiterViewModel : UpdateProperty
 
     public RelayCommand OrderListBtn => _orderList ?? (_orderList = new RelayCommand(x =>
     {
-        Navigation.waiterFrame.Navigate(new OrdersList());
+        Navigation.waiterFrame.Navigate(new OrdersListWaiter());
         SelectedPage = "Список заказов";
     }));
 
@@ -60,7 +81,7 @@ public class WaiterViewModel : UpdateProperty
 
     public RelayCommand Report => _report ?? (_report = new RelayCommand(x =>
     {
-        Navigation.waiterFrame.Navigate(new ReportPageAdmin());
+        Navigation.waiterFrame.Navigate(new ReportPageWaiter());
         SelectedPage = "Отчёт";
     }));
 }

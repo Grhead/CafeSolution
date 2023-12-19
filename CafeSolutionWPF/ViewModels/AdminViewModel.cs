@@ -52,7 +52,7 @@ public class AdminViewModel : UpdateProperty
     private RelayCommand _shiftListRelayCommand;
     public RelayCommand ShiftListBtn => _shiftListRelayCommand ?? (_shiftListRelayCommand = new RelayCommand(x =>
     {
-        Navigation.adminFrame.Navigate(new ShiftList());
+        Navigation.adminFrame.Navigate(new SetTablesPage());
         SelectedPage = "Список смен";
     }));
 
@@ -82,6 +82,20 @@ public class AdminViewModel : UpdateProperty
     {
         Navigation.adminFrame.Navigate(new ShiftCreate());
         SelectedPage = "Создать смену";
+    }));
+    
+    private RelayCommand _shiftInfoBtn;
+    public RelayCommand ShiftInfoBtn => _shiftInfoBtn ?? (_shiftInfoBtn = new RelayCommand(x =>
+    {
+        Navigation.adminFrame.Navigate(new ShiftCard());
+        SelectedPage = "Смены информация";
+    }));
+    
+    private RelayCommand _tablesListBtn;
+    public RelayCommand TablesListBtn => _tablesListBtn ?? (_tablesListBtn = new RelayCommand(x =>
+    {
+        Navigation.adminFrame.Navigate(new TablesList());
+        SelectedPage = "Столики";
     }));
 
     

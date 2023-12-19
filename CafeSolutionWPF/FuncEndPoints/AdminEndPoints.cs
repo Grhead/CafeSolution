@@ -71,7 +71,13 @@ public class AdminEndPoints : IAdminEp
     public Order GetOrder(int orderId)
     {
         using DatabaseContext db = new DatabaseContext();
-        Order selectedOrder = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        Order selectedOrder = db.Orders
+            .Include(x => x.Table)
+            .Include(x => x.CookingStatus)
+            .Include(x => x.DishesInOrders)
+            .ThenInclude(x => x.Dish)
+            .Where(x => x.Id == orderId)
+            .FirstOrDefault();
         return selectedOrder;
     }
 
@@ -164,6 +170,7 @@ public class AdminEndPoints : IAdminEp
             .ToList());
         return AllOrdersPerShift;
     }
+    
     // TODO check format output
     public bool CreateReportOrdersPerShift(int shiftId, int type)
     {
@@ -279,10 +286,26 @@ public class AdminEndPoints : IAdminEp
             .Where(x => x.ShiftId == shiftId)
             .Select(x => x.Employee)
             .ToList());
-        // TODO add amount count
+        decimal totalAmount = 0;
+        foreach (var item in getShift.EmployeesAtShift)
+        {
+            totalAmount += (decimal)db.Dishes
+                .Include(x => x.DishesInOrders)
+                .ThenInclude(x => x.Order)
+                .ThenInclude(x => x.Table)
+                .ThenInclude(x => x.EmployeesAtTables)
+                .ThenInclude(x => x.Employee)
+                .ThenInclude(x => x.EmployeesAtShifts)
+                .ThenInclude(x => x.Shift)
+                .Sum(x => x.Price);
+        }
+
+        getShift.AmountByShift = totalAmount;
         return getShift;
     }
 
+    
+    // TODO Duplicate with ~AddDish WaiterEndPoints
     public bool ChangeOrderDetails(int orderId, ObservableCollection<Dish> newDishInOrder)
     {
         using DatabaseContext db = new DatabaseContext();
@@ -363,5 +386,30 @@ public class AdminEndPoints : IAdminEp
         order.NumberOfCustomers = customersCount;
         order.CookingStatusId = statusCook;
         db.SaveChanges();
+    }
+
+    public void SetEmployeeToTable(int employeeId, int tableId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        EmployeesAtTable newEmpAtTable = new EmployeesAtTable();
+        newEmpAtTable.TableId = tableId;
+        newEmpAtTable.EmployeeId = employeeId;
+        db.EmployeesAtTables.Add(newEmpAtTable);
+        db.SaveChanges();
+    }
+    
+    public ObservableCollection<EmployeesAtTable> GetEmployeesAtTables()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        ObservableCollection<EmployeesAtTable> newList = new ObservableCollection<EmployeesAtTable>(db.EmployeesAtTables
+            .Include(x => x.Employee)
+            .Include(x => x.Table));
+        return newList;
+    }
+
+    public int GetEmployee(string login)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return db.Employees.FirstOrDefault(x => x.Login == login).Id;
     }
 }

@@ -6,9 +6,9 @@ using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages.CardPages;
 
-public partial class EmployeeSelfCard : Page
+public partial class EmployeeCard : Page
 {
-    public EmployeeSelfCard()
+    public EmployeeCard()
     {
         InitializeComponent();
         DataContext = new AdminViewModel();

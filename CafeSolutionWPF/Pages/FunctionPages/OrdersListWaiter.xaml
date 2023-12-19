@@ -1,0 +1,24 @@
+﻿<Page x:Class="CafeSolutionWPF.Pages.FunctionPages.OrdersListWaiter"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:CafeSolutionWPF.Pages.FunctionPages"
+      mc:Ignorable="d"
+      Title="OrdersListWaiter" Height="450" Width="800">
+    <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <ListBox 
+                Name="ListBoxOrders"
+                Height="250">
+            </ListBox>
+            <Button 
+                Content="Сформировать счёт"
+                HorizontalAlignment="Center"
+                Click="ButtonBase_OnClick">
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

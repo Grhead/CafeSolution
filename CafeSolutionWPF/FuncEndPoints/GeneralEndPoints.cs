@@ -13,9 +13,11 @@ public class GeneralEndPoints
     public static AuthDto Auth(string login, string password)
     {
         using DatabaseContext db = new DatabaseContext();
-        var qwe = db.Employees.ToList();
-        var enteredEmployee = db.Employees.Include(employee => employee.Role).FirstOrDefault(x => x.Login == login 
-                                                                          && x.PassHash == CreateHash(password));
+        var enteredEmployee = db.Employees
+            .Include(employee => employee.Role)
+            .Include(x => x.Status)
+            .FirstOrDefault(x => x.Login == login 
+                                 && x.PassHash == CreateHash(password));
         if (enteredEmployee != null && enteredEmployee.StatusId == 1)
         {
             return new AuthDto
@@ -39,5 +41,14 @@ public class GeneralEndPoints
     {
         using SHA256 hash = SHA256.Create();
         return Convert.ToHexString(hash.ComputeHash(Encoding.ASCII.GetBytes(input)));
+    }
+    
+    public static Shift GetCurrentShift()
+    {
+        DateTime currentDate = DateTime.Today;
+        using DatabaseContext db = new DatabaseContext();
+        // Shift currentShift = db.Shifts.FirstOrDefault(x => x.ShiftDate == currentDate);
+        Shift currentShift = db.Shifts.FirstOrDefault(x => x.ShiftDate < currentDate);
+        return currentShift;
     }
 }
