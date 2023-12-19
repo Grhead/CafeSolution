@@ -1,2 +1,2 @@
 ## CafeSolution 
-Desktop Application created on the Avalonia framework
+Desktop Application created on the Windows Presentation Foundation
