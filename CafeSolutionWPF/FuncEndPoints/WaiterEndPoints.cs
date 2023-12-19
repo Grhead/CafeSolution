@@ -169,7 +169,6 @@ public class WaiterEndPoints: IWaiterEp
                 foreach (var dish in item.DishesInOrders)
                 {
                     document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
-
                 }
             }
             document.Close();

@@ -1,19 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.IO.Packaging;
 using System.Linq;
+using System.Text;
 using System.Windows;
+using Aspose.Cells;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.Win32;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Structure;
+using Font = iTextSharp.text.Font;
+using PdfDocument = PdfSharp.Pdf.PdfDocument;
 
 namespace CafeSolutionWPF.FuncEndPoints;
 
@@ -167,46 +173,62 @@ public class AdminEndPoints : IAdminEp
             .ThenInclude(x => x.Employee)
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
+            .Where(x => x.PaymentTypeId != null)
             .ToList());
         return AllOrdersPerShift;
     }
-    
-    // TODO check format output
-    public bool CreateReportOrdersPerShift(int shiftId, int type)
+    public bool CreateReportOrdersPerShift(int shiftId, string savePath)
     {
-        ShiftDto shiftInfo = GetShiftInfo(shiftId);
-        try
-        {
-            var document = new PdfDocument();
-            var page = document.AddPage();
-            var gfx = XGraphics.FromPdfPage(page);
-            document.Info.Title = "Created with PDFsharp";
-            var filename = ($"{shiftId}_{DateTime.Now.ToUniversalTime()}.pdf");
-            
-            var font = new XFont("Times New Roman", 20, XFontStyleEx.BoldItalic);
-            int height = 50;
-            int width = 0;
-            gfx.DrawString($"Смена №{shiftId}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            width = width + 120;
-            gfx.DrawString($"Дата смены №{shiftId} {shiftInfo.ShiftDate}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            height = height + 20;
-            width = 0;
-            gfx.DrawString($"Выручка за смену{shiftInfo.AmountByShift}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-            height = height + 15;
-            width = 0;
-            foreach (var item in shiftInfo.EmployeesAtShift)
-            {
-                gfx.DrawString($"Сотрудник {item.SecondName} {item.FirstName} {item.LastName}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
-                height = height + 23;
-                width = 0;
-            }
-            document.Save(filename);
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
+        ObservableCollection<Order> allOrders = GetAllOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Document document = new Document();
+        PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
+        BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+        Font font = new Font(baseFont, 16);
+        document.Open();
+        document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
 
+        foreach (var item in allOrders)
+        {
+            document.Add(new Paragraph(new Phrase($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}", font)));
+            foreach (var dish in item.DishesInOrders)
+            {
+                document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
+            }
+        }
+        
+        document.Close();
+            
+        return true;
+    }
+    
+    public bool CreateReportOrdersPerShiftXLSX (int shiftId, string savePath)
+    {
+        ObservableCollection<Order> allOrders = GetAllOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+       
+        Workbook wb = new Workbook();
+        Worksheet sheet = wb.Worksheets[0];
+
+        Cell cell = sheet.Cells["A1"];
+        cell.PutValue($"Смена №{shiftId}");
+            
+        int countC = 1;
+        foreach (var item in allOrders)
+        {
+            cell = sheet.Cells[$"C{countC}"];
+            cell.PutValue($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
+            foreach (var dish in item.DishesInOrders)
+            {
+                cell = sheet.Cells[$"D{countC}"];
+                cell.PutValue($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}");
+                countC += 1;
+            }
+
+            countC += 2;
+        }
+        wb.Save(savePath, SaveFormat.Xlsx);
+            
         return true;
     }
 
@@ -411,5 +433,80 @@ public class AdminEndPoints : IAdminEp
     {
         using DatabaseContext db = new DatabaseContext();
         return db.Employees.FirstOrDefault(x => x.Login == login).Id;
+    }
+    
+    public ObservableCollection<Order> GetPaidOrdersPerShift(int shiftId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        ObservableCollection<Order> AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
+            .Include(x => x.CookingStatus)
+            .Include(x => x.PaymentType)
+            .Include(x => x.PaymentStatus)
+            .Include(x => x.DishesInOrders)
+            .ThenInclude(x => x.Dish)
+            .Include(x => x.Table)
+            .ThenInclude(x => x.EmployeesAtTables)
+            .ThenInclude(x => x.Employee)
+            .ThenInclude(x => x.EmployeesAtShifts)
+            .ThenInclude(x => x.Shift)
+            .Where(x => x.PaymentStatusId == 2)
+            .ToList());
+        return AllOrdersPerShift;
+    }
+    
+    public bool CreateReportPaidOrdersPerShift (int shiftId, string savePath)
+    {
+        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Document document = new Document();
+            PdfWriter.GetInstance(document, new FileStream(savePath, FileMode.Create));
+            BaseFont baseFont = BaseFont.CreateFont(@"C:/windows/fonts/arial.ttf", "windows-1251", BaseFont.EMBEDDED);
+            Font font = new Font(baseFont, 16);
+            document.Open();
+            
+            document.Add(new Paragraph(new Phrase($"Смена №{shiftId}", font)));
+
+            foreach (var item in allOrders)
+            {
+                document.Add(new Paragraph(new Phrase($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}", font)));
+                foreach (var dish in item.DishesInOrders)
+                {
+                    document.Add(new Paragraph(new Phrase($"    - Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}", font)));
+
+                }
+            }
+            document.Close();
+            
+        return true;
+    }
+    
+    public bool CreateReportPaidOrdersPerShiftXLSX (int shiftId, string savePath)
+    {
+        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+       
+        Workbook wb = new Workbook();
+        Worksheet sheet = wb.Worksheets[0];
+
+        Cell cell = sheet.Cells["A1"];
+        cell.PutValue($"Смена №{shiftId}");
+            
+        int countC = 1;
+        foreach (var item in allOrders)
+        {
+            cell = sheet.Cells[$"C{countC}"];
+            cell.PutValue($"Заказ №{item.Id}; Способ оплаты {item.PaymentStatus.Title}; Тип оплаты {item.PaymentType.Title}");
+            foreach (var dish in item.DishesInOrders)
+            {
+                cell = sheet.Cells[$"D{countC}"];
+                cell.PutValue($"Блюдо: {dish.Dish.Title} Стоимость {dish.Dish.Price}");
+                countC += 1;
+            }
+
+            countC += 2;
+        }
+        wb.Save(savePath, SaveFormat.Xlsx);
+            
+        return true;
     }
 }

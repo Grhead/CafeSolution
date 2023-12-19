@@ -20,7 +20,7 @@ public interface IAdminEp
     ObservableCollection<Order> GetAllOrdersPerShift(int shiftId);
     
     //nothing to return. Bool is process result
-    bool CreateReportOrdersPerShift(int shiftId, int type);
+    bool CreateReportOrdersPerShift(int shiftId, string filePath);
     Shift CreateShift(DateTime shiftDate, ObservableCollection<Employee> employees);
     EmployeeDto GetEmployeeInfoDto(int employeeId);
     Employee GetEmployeeInfo(string employeeLogin);
