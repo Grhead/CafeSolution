@@ -434,6 +434,11 @@ public class AdminEndPoints : IAdminEp
         using DatabaseContext db = new DatabaseContext();
         return db.Employees.FirstOrDefault(x => x.Login == login).Id;
     }
+    public Employee GetWholeEmployee(int employeeId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return db.Employees.FirstOrDefault(x => x.Id == employeeId);
+    }
     
     public ObservableCollection<Order> GetPaidOrdersPerShift(int shiftId)
     {
