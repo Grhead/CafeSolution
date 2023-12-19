@@ -8,7 +8,7 @@ namespace CafeSolutionWPF.Interfaces;
 public interface IWaiterEp
 {
     ObservableCollection<Order> GetAllOrdersPerShift(int shiftId, int employeeId);
-    Order CreateNewOrder(ObservableCollection<Dish> dishes, int table, int numberOfCustomers, int employeeId);
+    Order CreateNewOrder(ObservableCollection<Dish> dishes, int table, int numberOfCustomers);
     Order ChangePaymentStatus(int orderId, int paymentStatusId, int paymentTypeId);
     
     BillDto CreateBill(int orderId, int employeeId);

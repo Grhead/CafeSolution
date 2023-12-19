@@ -7,7 +7,7 @@
       d:DataContext="{d:DesignInstance Type=viewmodels:GeneralViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="AuthPage" Height="450" Width="800">
+      Title="AuthPage" Height="650" Width="1100">
     <Grid>
         <StackPanel
             Grid.Column="0"

@@ -21,12 +21,15 @@ public partial class OrderCard : Page
         {
             ListBoxDishes.Items.Insert(ListBoxDishes.Items.Count, item.Title);
         }
+
+        TextBlockOrderId.Text = Navigation.selectedOrder.Id.ToString();
+        TextBlockStatus.Text = Navigation.selectedOrder.CookingStatusId.ToString();
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
         CookEndPoints newCook = new CookEndPoints();
         // int selectedId = newCook.GetDishId((string)ComboBoxDishes.SelectedItem);
-        newCook.ChangeCookingStatus((int)ListBoxDishes.SelectedItem,Navigation.selectedOrder.Id);
+        newCook.ChangeCookingStatus(Navigation.selectedOrder.Id,newCook.GetDishId(ComboBoxDishes.SelectedItem.ToString()));
     }
 }

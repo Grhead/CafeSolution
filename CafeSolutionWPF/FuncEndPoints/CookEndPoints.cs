@@ -52,7 +52,7 @@ public class CookEndPoints: ICookEp
     public int GetDishId(string dishTitle)
     {
         using DatabaseContext db = new DatabaseContext();
-        return db.Dishes.FirstOrDefault(x => x.Title == dishTitle).Id;
+        return db.TableCookingStatuses.FirstOrDefault(x => x.Title == dishTitle).Id;
     }
     
     public ObservableCollection<Dish> GetDishesInOrder(int orderId)

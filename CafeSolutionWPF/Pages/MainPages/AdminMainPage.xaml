@@ -7,7 +7,7 @@
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="AdminMainPage" Height="450" Width="800">
+      Title="AdminMainPage" Height="650" Width="1100">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -48,6 +48,7 @@
             Grid.Column="0"
             VerticalAlignment="Center">
             <Button
+                Name="EmployeesListBtn"
                 HorizontalAlignment="Center"
                 Content="Список сотрудников"
                 Width="160"
@@ -55,6 +56,7 @@
                 Command="{Binding EmployeeListBtn}">
             </Button>
             <Button
+                Name="OrdersListBtn"
                 HorizontalAlignment="Center"
                 Content="Список заказов"
                 Width="160"
@@ -62,6 +64,7 @@
                 Command="{Binding OrderListBtn}">
             </Button>
             <Button
+                Name="ShiftsListBtn"
                 HorizontalAlignment="Center"
                 Content="Список смен"
                 Width="160"
@@ -69,6 +72,7 @@
                 Command="{Binding ShiftListBtn}">
             </Button>
             <Button
+                Name="CreateShiftBtn"
                 HorizontalAlignment="Center"
                 Content="Создать смену"
                 Width="160"
@@ -76,6 +80,7 @@
                 Command="{Binding NewShiftBtn}">
             </Button>
             <Button
+                Name="DismissBtn"
                 HorizontalAlignment="Center"
                 Content="Уволить"
                 Width="160"
@@ -83,13 +88,15 @@
                 Command="{Binding DismissBtn}">
             </Button>
             <Button
+                Name="HireEmployeeBtn"
                 HorizontalAlignment="Center"
                 Content="Нанять"
                 Width="160"
                 Margin="0 0 0 10"
-                Command="{Binding DismissBtn}">
+                Command="{Binding HireEmployeeBtn}">
             </Button>
             <Button
+                Name="ReportBtn"
                 HorizontalAlignment="Center"
                 Content="Отчёт"
                 Width="160"

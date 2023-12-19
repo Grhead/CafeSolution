@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.FuncEndPoints;
 using CafeSolutionWPF.Models;
@@ -7,16 +8,16 @@ using CafeSolutionWPF.Pages.FunctionPages;
 
 namespace CafeSolutionWPF.ViewModels;
 
-public class AdminViewModel: UpdateProperty
+public class AdminViewModel : UpdateProperty
 {
     public AdminViewModel()
     {
         SelfLogin = Navigation.ClientSession.Login;
     }
-
-    private string _selectedPage;
+    
     public string SelfLogin { get; set; }
 
+    private string _selectedPage;
     public string SelectedPage
     {
         get => _selectedPage;
@@ -26,106 +27,247 @@ public class AdminViewModel: UpdateProperty
             OnPropertyChanged();
         }
     }
-    public List<EmployeeDto> EmployeeList { get; set; }
-    public Employee selectedEmployee { get; set; }
     
-    public List<Order> OrderList { get; set; }
-    public Order selectedOrder { get; set; }
-    
-    public List<Shift> ShiftListView { get; set; }
-    public ShiftDto SelectedShiftDto { get; set; }
-    
-    private RelayCommand _employeeList;
-    private RelayCommand _orderList;
-    private RelayCommand _shiftList;
-    private RelayCommand _dismiss;
-    private RelayCommand _report;
     private RelayCommand _exit;
-    private RelayCommand _getemployee;
-    private RelayCommand _newShift;
-
     public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
     {
         Navigation.mainFrame.Navigate(new AuthPage());
         Navigation.ClientSession = null;
     }));
-    
-    public RelayCommand EmployeeListBtn => _employeeList ?? (_employeeList = new RelayCommand(x =>
+
+    private RelayCommand _employeeListRelayCommand;
+    public RelayCommand EmployeeListBtn => _employeeListRelayCommand ?? (_employeeListRelayCommand = new RelayCommand(x =>
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
         Navigation.adminFrame.Navigate(new EmployeeList());
         SelectedPage = "Список сотрудников";
-        EmployeeList = newAdmin.GetEmployeesList();
     }));
-    public RelayCommand OrderListBtn => _orderList ?? (_orderList = new RelayCommand(x =>
+
+    private RelayCommand _orderListRelayCommand;
+    public RelayCommand OrderListBtn => _orderListRelayCommand ?? (_orderListRelayCommand = new RelayCommand(x =>
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        Navigation.adminFrame.Navigate(new OrdersList());
-        OrderList = newAdmin.GetAllOrders();
+        Navigation.adminFrame.Navigate(new OrdersListAdmin());
         SelectedPage = "Список заказов";
     }));
-    public RelayCommand ShiftListBtn => _shiftList ?? (_shiftList = new RelayCommand(x =>
+
+    private RelayCommand _shiftListRelayCommand;
+    public RelayCommand ShiftListBtn => _shiftListRelayCommand ?? (_shiftListRelayCommand = new RelayCommand(x =>
     {
-        AdminEndPoints newAdmin = new AdminEndPoints();
         Navigation.adminFrame.Navigate(new ShiftList());
-        ShiftListView = newAdmin.GtAllShifts();
         SelectedPage = "Список смен";
     }));
-    public RelayCommand DismissBtn => _dismiss ?? (_dismiss = new RelayCommand(x =>
+
+    private RelayCommand _dismissRelayCommand;
+    public RelayCommand DismissBtn => _dismissRelayCommand ?? (_dismissRelayCommand = new RelayCommand(x =>
     {
         Navigation.adminFrame.Navigate(new DismissEmployee());
         SelectedPage = "Уволить";
     }));
-    public RelayCommand ReportBtn => _report ?? (_report = new RelayCommand(x =>
+
+    private RelayCommand _reportRelayCommand;
+    public RelayCommand ReportBtn => _reportRelayCommand ?? (_reportRelayCommand = new RelayCommand(x =>
     {
-        Navigation.adminFrame.Navigate(new ReportPage());
+        Navigation.adminFrame.Navigate(new ReportPageAdmin());
         SelectedPage = "Отчёт";
     }));
-
-    public RelayCommand GetEmployeeBtn => _getemployee ?? (_getemployee = new RelayCommand(x =>
+    
+    private RelayCommand _hireEmployeeRelayCommand;
+    public RelayCommand HireEmployeeBtn => _hireEmployeeRelayCommand ?? (_hireEmployeeRelayCommand = new RelayCommand(x =>
     {
-        Navigation.adminFrame.Navigate(new GetEmployeePage());
+        Navigation.adminFrame.Navigate(new CreateEmployeePage());
         SelectedPage = "Нанять";
     }));
 
-    public RelayCommand NewShiftBtn => _newShift ?? (_newShift = new RelayCommand(x =>
+    private RelayCommand _newShiftRelayCommand;
+    public RelayCommand NewShiftBtn => _newShiftRelayCommand ?? (_newShiftRelayCommand = new RelayCommand(x =>
     {
         Navigation.adminFrame.Navigate(new ShiftCreate());
         SelectedPage = "Создать смену";
     }));
 
-    public List<EmployeeDto> EmployeeListDismiss { get; set; }
-    public Employee EmployeeDismiss { get; }
+    
+    private Employee _selectedEmployee;
+    public Employee SelectedEmployee
+    {
+        get => _selectedEmployee;
+        set {
+            _selectedEmployee = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private Order _selectedOrder;
+    public Order SelectedOrder
+    {
+        get => _selectedOrder;
+        set
+        {
+            // Safe?
+            if (Equals(value, _selectedOrder)) return;
+            _selectedOrder = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ShiftDto _selectedShiftDto;
+    public ShiftDto SelectedShiftDto
+    {
+        get => _selectedShiftDto;
+        set
+        {
+            if (Equals(value, _selectedShiftDto)) return;
+            _selectedShiftDto = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ObservableCollection<EmployeeDto> _employeeList;
+    public ObservableCollection<EmployeeDto> EmployeeList
+    {
+        get => _employeeList;
+        set
+        {
+            if (Equals(value, _employeeList)) return;
+            _employeeList = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    private ObservableCollection<Order> _orderList;
+    public ObservableCollection<Order> OrderList
+    {
+        get => _orderList;
+        set
+        {
+            if (Equals(value, _orderList)) return;
+            _orderList = value;
+            OnPropertyChanged();
+        }
+    }
 
-    private RelayCommand _confirmDismiss;
-    public RelayCommand ConfirmDismissBtn => _confirmDismiss ?? (_confirmDismiss = new RelayCommand(x =>
-    {
-        AdminEndPoints newAdmin = new AdminEndPoints();
-        EmployeeListDismiss = newAdmin.GetEmployeesList();
-        newAdmin.Dismiss(EmployeeDismiss.Id);
-    }));
     
-    private RelayCommand _viewEmployee;
-    public RelayCommand ViewEmployeeBtn => _viewEmployee ?? (_viewEmployee = new RelayCommand(x =>
+    private ObservableCollection<Shift> _shiftListView;
+    public ObservableCollection<Shift> ShiftListView
     {
-        Navigation.cookFrame.Navigate(new EmployeeCard());
-        selectedEmployee = Navigation.selectedEmployee;
-        SelectedPage = "Карточка сотрудника";
-    }));
+        get => _shiftListView;
+        set
+        {
+            if (Equals(value, _shiftListView)) return;
+            _shiftListView = value;
+            OnPropertyChanged();
+        }
+    }
     
+    private Employee _selectEmployeeDismiss;
+    public Employee SelectEmployeeDismiss
+    {
+        get => _selectEmployeeDismiss;
+        set
+        {
+            if (Equals(value, _selectEmployeeDismiss)) return;
+            _selectEmployeeDismiss = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(ConfirmDismissBtn));
+        }
+    }
+
+    private Employee _createEmployeeFN;
+    public Employee CreateEmployeeFN
+    {
+        get => _createEmployeeFN;
+        set
+        {
+            if (Equals(value, _createEmployeeFN)) return;
+            _createEmployeeFN = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    
+    private DateTime _selectedDateTimeBirthday;
+    public DateTime SelectedDateTimeBirthday
+    {
+        get => _selectedDateTimeBirthday;
+        set
+        {
+            if (Equals(value, _selectedDateTimeBirthday)) return;
+            _selectedDateTimeBirthday = value;
+            OnPropertyChanged();
+        }
+    }
+
+
+    // private RelayCommand _viewEmployee;
+    // public RelayCommand ViewEmployeeBtn => _viewEmployee ?? (_viewEmployee = new RelayCommand(x =>
+    // {
+    //     if (SelectedEmployee != null)
+    //     {
+    //         Navigation.cookFrame.Navigate(new EmployeeCard());
+    //         Navigation.selectedEmployee = SelectedEmployee;
+    //         SelectedPage = "Карточка сотрудника";
+    //     }
+    // }));
+
     private RelayCommand _viewOrder;
     public RelayCommand ViewOrderBtn => _viewOrder ?? (_viewOrder = new RelayCommand(x =>
     {
-        Navigation.adminFrame.Navigate(new OrderCard());
-        selectedOrder = Navigation.selectedOrder;
-        SelectedPage = "Карточка заказа";
+        if (SelectedOrder != null)
+        {
+            Navigation.adminFrame.Navigate(new OrderCard());
+            Navigation.selectedOrder = SelectedOrder;
+            SelectedPage = "Карточка заказа";
+        }
     }));
-    
+
     private RelayCommand _viewShift;
     public RelayCommand ViewShiftBtn => _viewShift ?? (_viewShift = new RelayCommand(x =>
     {
-        Navigation.adminFrame.Navigate(new ShiftCard());
-        SelectedShiftDto = Navigation.selectedShift;
-        SelectedPage = "Карточка смены";
+        if (SelectedShiftDto != null)
+        {
+            Navigation.adminFrame.Navigate(new ShiftCard());
+            Navigation.selectedShift = SelectedShiftDto;
+            SelectedPage = "Карточка смены";
+        }
     }));
+    
+    private RelayCommand _confirmDismiss;
+    public RelayCommand ConfirmDismissBtn => _confirmDismiss ?? (_confirmDismiss = new RelayCommand(x =>
+    {
+        var newAdmin = new AdminEndPoints();
+        EmployeeList = newAdmin.GetEmployeesList();
+        newAdmin.Dismiss(SelectEmployeeDismiss.Id);
+    }));
+    
+    // private RelayCommand _createEmployeeBtn;
+    // public RelayCommand CreateEmployeeBtn => _createEmployeeBtn ?? (_createEmployeeBtn = new RelayCommand(x =>
+    // {
+    //     var qwe = CreateEmployee;
+    //     if (CreateEmployeePassword != null)
+    //     {
+    //         var newAdmin = new AdminEndPoints();
+    //         CreateEmployee.PassHash = GeneralEndPoints.CreateHash(CreateEmployeePassword);
+    //         EmployeeDto newEmployee = newAdmin.CreateEmployee(CreateEmployee);
+    //     }
+    // }));
+    public void CreateEmployee(Employee employeeData)
+    {
+        var newAdmin = new AdminEndPoints();
+        newAdmin.CreateEmployee(employeeData);
+    }
+    public bool DismissEmployee(int employeeId)
+    {
+        var newAdmin = new AdminEndPoints();
+        return newAdmin.Dismiss(employeeId);
+    }
+    public ObservableCollection<Employee> GetAllWorkEmployees()
+    {
+        var newAdmin = new AdminEndPoints();
+        return newAdmin.GetWorkEmployeesList();
+    }
+
+    public ObservableCollection<EmployeeDto> GetAllEmployees()
+    {
+        AdminEndPoints newAdmin = new AdminEndPoints();
+        EmployeeList = newAdmin.GetEmployeesList();
+        return EmployeeList;
+    }
 }

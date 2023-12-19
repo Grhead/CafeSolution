@@ -32,7 +32,7 @@ public class WaiterEndPoints: IWaiterEp
         return allOrdersPerShift;
     }
 
-    public Order CreateNewOrder(ObservableCollection<Dish> dishes, int table, int numberOfCustomers, int employeeId)
+    public Order CreateNewOrder(ObservableCollection<Dish> dishes, int table, int numberOfCustomers)
     {
         using DatabaseContext db = new DatabaseContext();
         Order newOrder = new Order()
@@ -41,7 +41,7 @@ public class WaiterEndPoints: IWaiterEp
             NumberOfCustomers = numberOfCustomers,
             PaymentStatusId = 1,
             CookingStatusId = 1,
-            PaymentType = null
+            PaymentTypeId = null
         };
         db.Orders.Add(newOrder);
         db.SaveChanges();
@@ -196,5 +196,52 @@ public class WaiterEndPoints: IWaiterEp
             .Include(x => x.PaymentType)
             .FirstOrDefault(x => x.Id == orderId);
         return selectedOrder;
+    }
+    
+    public Dish GetDish(string dishTitle)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Dish selectedDish = db.Dishes
+            .FirstOrDefault(x => x.Title == dishTitle);
+        return selectedDish;
+    }
+
+    public ObservableCollection<DishesInOrder> AddDishToOrder(ObservableCollection<Dish> dishes, int orderId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        foreach (var item in dishes)
+        {
+            DishesInOrder dishesInNewOrder = new DishesInOrder
+            {
+                DishId = item.Id,
+                OrderId = orderId
+            };
+            db.DishesInOrders.Add(dishesInNewOrder);
+        }
+        db.SaveChanges();
+        return new ObservableCollection<DishesInOrder> (db.DishesInOrders
+            .Include(x => x.Dish)
+            .Include(x => x.Order).ToList());
+    }
+    
+    public ObservableCollection<Dish> GetAllDishes()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return new ObservableCollection<Dish>(db.Dishes.ToList());
+    }
+    public ObservableCollection<Table> GetAllTables()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return new ObservableCollection<Table>(db.Tables.ToList());
+    }
+    public ObservableCollection<Table> GetAllAvailableTables()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return new ObservableCollection<Table>(db.EmployeesAtTables
+            .Where(x => x.EmployeeId == Navigation.ClientSession.Id)
+            .Select(x => new Table()
+            {
+                TableNumber = x.Table.TableNumber
+            }));
     }
 }

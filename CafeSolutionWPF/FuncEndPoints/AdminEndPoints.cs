@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Packaging;
 using System.Linq;
 using System.Windows;
@@ -18,10 +19,10 @@ namespace CafeSolutionWPF.FuncEndPoints;
 
 public class AdminEndPoints : IAdminEp
 {
-    public List<EmployeeDto> GetEmployeesList()
+    public ObservableCollection<EmployeeDto> GetEmployeesList()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<EmployeeDto> employees = db.Employees
+        ObservableCollection<EmployeeDto> employees = new ObservableCollection<EmployeeDto>(db.Employees
             .Include(x => x.Status)
             .Include(x => x.Role)
             .Select(x => new EmployeeDto
@@ -31,28 +32,39 @@ public class AdminEndPoints : IAdminEp
                 LastName = x.LastName,
                 Birthday = x.Birthday,
                 Role = x.Role.Title,
-                Status = x.Status.Title
+                Status = x.Status.Title,
+                Login = x.Login
                 
-            }).ToList();
+            }).ToList());
         return employees;
     }
 
-    public List<Order> GetAllOrders()
+    public ObservableCollection<Employee> GetWorkEmployeesList()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> allOrders = db.Orders
+        ObservableCollection<Employee> employees = new ObservableCollection<Employee>(db.Employees
+            .Include(x => x.Status)
+            .Include(x => x.Role)
+            .ToList());
+        return employees;
+    }
+
+    public ObservableCollection<Order> GetAllOrders()
+    {
+        using DatabaseContext db = new DatabaseContext();
+        ObservableCollection<Order> allOrders = new ObservableCollection<Order>(db.Orders
             .Include(x => x.Table)
             .Include(x => x.PaymentStatus)
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentStatus)
-            .ToList();
+            .ToList());
         return allOrders;
     }
 
-    public List<Shift> GtAllShifts()
+    public ObservableCollection<Shift> GetAllShifts()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Shift> allShifts = db.Shifts.ToList();
+        ObservableCollection<Shift> allShifts = new ObservableCollection<Shift>(db.Shifts.ToList());
         return allShifts;
     }
 
@@ -135,10 +147,10 @@ public class AdminEndPoints : IAdminEp
         return employeeScan;
     }
 
-    public List<Order> GetAllOrdersPerShift(int shiftId)
+    public ObservableCollection<Order> GetAllOrdersPerShift(int shiftId)
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> AllOrdersPerShift = db.Orders
+        ObservableCollection<Order> AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -149,7 +161,7 @@ public class AdminEndPoints : IAdminEp
             .ThenInclude(x => x.Employee)
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
-            .ToList();
+            .ToList());
         return AllOrdersPerShift;
     }
     // TODO check format output
@@ -177,7 +189,7 @@ public class AdminEndPoints : IAdminEp
             width = 0;
             foreach (var item in shiftInfo.EmployeesAtShift)
             {
-                gfx.DrawString($"Сотрудник №{item.Id}: {item.SecondName} {item.FirstName} {item.LastName}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
+                gfx.DrawString($"Сотрудник {item.SecondName} {item.FirstName} {item.LastName}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
                 height = height + 23;
                 width = 0;
             }
@@ -191,7 +203,7 @@ public class AdminEndPoints : IAdminEp
         return true;
     }
 
-    public Shift CreateShift(DateTime shiftDate, List<Employee> employees)
+    public Shift CreateShift(DateTime shiftDate, ObservableCollection<Employee> employees)
     {
         if (shiftDate < DateTime.Today.AddDays(5) && employees.Count > 3 && employees.Count < 8)
         {
@@ -220,7 +232,7 @@ public class AdminEndPoints : IAdminEp
 
     }
 
-    public EmployeeDto GetEmployeeInfo(int employeeId)
+    public EmployeeDto GetEmployeeInfoDto(int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
         EmployeeDto getEmployee = db.Employees
@@ -239,12 +251,22 @@ public class AdminEndPoints : IAdminEp
             }).FirstOrDefault();
         return getEmployee;
     }
+    
+    public Employee GetEmployeeInfo(string employeeLogin)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Employee getEmployee = db.Employees
+            .Include(x => x.Status)
+            .Include(x => x.Role)
+            .Where(x => x.Login == employeeLogin)
+            .FirstOrDefault();
+        return getEmployee;
+    }
 
     public ShiftDto GetShiftInfo(int shiftId)
     {
         using DatabaseContext db = new DatabaseContext();
         ShiftDto getShift = db.Shifts
-            .Include(x => x.ShiftDate)
             .Include(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Employee)
             .Select(x => new ShiftDto
@@ -253,14 +275,69 @@ public class AdminEndPoints : IAdminEp
             })
             .FirstOrDefault();
         
-        getShift.EmployeesAtShift = db.EmployeesAtShifts
+        getShift.EmployeesAtShift = new ObservableCollection<Employee>(db.EmployeesAtShifts
             .Where(x => x.ShiftId == shiftId)
             .Select(x => x.Employee)
-            .ToList();
+            .ToList());
         // TODO add amount count
         return getShift;
     }
-    
+
+    public bool ChangeOrderDetails(int orderId, ObservableCollection<Dish> newDishInOrder)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Order orderLetsChange = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        try
+        {
+            if (orderLetsChange.PaymentStatusId != 2)
+            {
+                foreach (var item in newDishInOrder)
+                {
+                    DishesInOrder newDish = new DishesInOrder();
+                    newDish.OrderId = orderId;
+                    newDish.Dish = item;
+                    db.DishesInOrders.Add(newDish);
+                    db.SaveChanges();
+                }    
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public ObservableCollection<EmployeeInShift> GetEmployeesByShift(int shiftId)
+    {
+        // using DatabaseContext db = new DatabaseContext();
+        // ObservableCollection<EmployeeInShift> newList = new ObservableCollection<EmployeeInShift>(db.EmployeesAtShifts
+        //     .Include(x => x.Employee)
+        //     .Include(x => x.Shift)
+        //     .Select());
+        ObservableCollection<EmployeeInShift> newList = new ObservableCollection<EmployeeInShift>();
+        return newList;
+    }
+
+    public bool AddEmployeeToShift(int shiftId, int employeeId)
+    {
+        try
+        {
+            using DatabaseContext db = new DatabaseContext();
+            EmployeesAtShift newEmpInShift = new EmployeesAtShift();
+            newEmpInShift.ShiftId = shiftId;
+            newEmpInShift.EmployeeId = employeeId;
+            db.EmployeesAtShifts.Add(newEmpInShift);
+            db.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public bool Dismiss(int employeeId)
     {
         try
@@ -276,5 +353,15 @@ public class AdminEndPoints : IAdminEp
         }
         
         return true;
+    }
+
+    public void ChangeOrderDetails(int orderId, int customersCount, int tableNumber, int statusCook)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+        order.TableId = db.Tables.FirstOrDefault(x => x.TableNumber == tableNumber).Id;
+        order.NumberOfCustomers = customersCount;
+        order.CookingStatusId = statusCook;
+        db.SaveChanges();
     }
 }
