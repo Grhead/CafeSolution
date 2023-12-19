@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
@@ -27,9 +28,9 @@ public class Employee
 
     public string? Photo { get; set; } = null!;
 
-    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new List<EmployeesAtShift>();
+    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new ObservableCollection<EmployeesAtShift>();
 
-    public virtual ICollection<EmployeesAtTable> EmployeesAtTables { get; set; } = new List<EmployeesAtTable>();
+    public virtual ICollection<EmployeesAtTable> EmployeesAtTables { get; set; } = new ObservableCollection<EmployeesAtTable>();
 
     public virtual EmployeeRole Role { get; set; } = null!;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
@@ -11,5 +12,5 @@ public partial class Dish
 
     public decimal? Price { get; set; }
 
-    public virtual ICollection<DishesInOrder> DishesInOrders { get; set; } = new List<DishesInOrder>();
+    public virtual ICollection<DishesInOrder> DishesInOrders { get; set; } = new ObservableCollection<DishesInOrder>();
 }

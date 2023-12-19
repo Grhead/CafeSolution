@@ -17,19 +17,14 @@ using CafeSolutionWPF.ViewModels;
 namespace CafeSolutionWPF.Pages.FunctionPages
 {
     /// <summary>
-    /// Interaction logic for OrderCreate.xaml
+    /// Interaction logic for BillPage.xaml
     /// </summary>
-    public partial class OrderCreate : Page
+    public partial class BillPage : Page
     {
-        public OrderCreate()
+        public BillPage()
         {
             InitializeComponent();
             DataContext = new WaiterViewModel();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

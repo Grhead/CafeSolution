@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Data;
@@ -8,10 +9,10 @@ namespace CafeSolutionWPF.FuncEndPoints;
 
 public class CookEndPoints: ICookEp
 {
-    public List<Order> GetAllOrdersPerShift()
+    public ObservableCollection<Order> GetAllOrdersPerShift()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> allOrdersPerShift = db.Orders
+        ObservableCollection<Order> allOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -21,8 +22,7 @@ public class CookEndPoints: ICookEp
             .ThenInclude(x => x.EmployeesAtTables)
             .ThenInclude(x => x.Employee)
             .ThenInclude(x => x.EmployeesAtShifts)
-            .ThenInclude(x => x.Shift)
-            .ToList();
+            .ThenInclude(x => x.Shift));
         return allOrdersPerShift;
     }
 
@@ -42,10 +42,28 @@ public class CookEndPoints: ICookEp
         return selectedOrder;
     }
 
-    public List<TableCookingStatus> AllStatuses()
+    public ObservableCollection<TableCookingStatus> AllStatuses()
     {
         using DatabaseContext db = new DatabaseContext();
-        List<TableCookingStatus> statuses = db.TableCookingStatuses.ToList();
+        ObservableCollection<TableCookingStatus> statuses = new ObservableCollection<TableCookingStatus>(db.TableCookingStatuses.ToList());
         return statuses;
+    }
+    
+    public int GetDishId(string dishTitle)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return db.Dishes.FirstOrDefault(x => x.Title == dishTitle).Id;
+    }
+    
+    public ObservableCollection<Dish> GetDishesInOrder(int orderId)
+    {
+        using DatabaseContext db = new DatabaseContext();
+        return new ObservableCollection<Dish>(db.DishesInOrders
+            .Include(x => x.Dish)
+            .Where(x => x.OrderId == orderId)
+            .Select(x => new Dish
+                {
+                    Title = x.Dish.Title
+                }));
     }
 }

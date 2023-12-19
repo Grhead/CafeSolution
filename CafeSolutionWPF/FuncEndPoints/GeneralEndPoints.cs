@@ -16,7 +16,7 @@ public class GeneralEndPoints
         var qwe = db.Employees.ToList();
         var enteredEmployee = db.Employees.Include(employee => employee.Role).FirstOrDefault(x => x.Login == login 
                                                                           && x.PassHash == CreateHash(password));
-        if (enteredEmployee != null)
+        if (enteredEmployee != null && enteredEmployee.StatusId == 1)
         {
             return new AuthDto
             {

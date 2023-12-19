@@ -1,36 +1,38 @@
-using System.Windows;
 using System.Windows.Controls;
 using CafeSolutionWPF.FuncEndPoints;
-using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Pages;
 
 namespace CafeSolutionWPF.ViewModels;
 
 public class GeneralViewModel
 {
-    private string _login;
-    private string _password;
+    public string Login { get; set; }
+    
     private RelayCommand _applyBtn;
-    public string Login { get { return _login; } set { _login = value; } }
     public RelayCommand ApplyBtn => _applyBtn ?? (_applyBtn = new RelayCommand(x =>
     {
         var passwordBox = x as PasswordBox;
-        var password = passwordBox.Password;
-        var tempAuth = GeneralEndPoints.Auth(_login, password);
-        if (tempAuth.Id != "")
+        var password = passwordBox?.Password;
+        if (password != null)
         {
-            if (tempAuth.Role == 1)
+            var tempAuth = GeneralEndPoints.Auth(Login, password);
+            if (tempAuth.Id != "")
             {
-                Navigation.ClientSession = tempAuth.Employee;
-                Navigation.mainFrame.Navigate(new AdminMainPage());
-            } else if (tempAuth.Role == 2)
-            {
-                Navigation.ClientSession = tempAuth.Employee;
-                Navigation.mainFrame.Navigate(new CookMainPage());
-            } else if (tempAuth.Role == 3)
-            {
-                Navigation.ClientSession = tempAuth.Employee;
-                Navigation.mainFrame.Navigate(new WaiterMainPage());
+                if (tempAuth.Role == 1)
+                {
+                    Navigation.ClientSession = tempAuth.Employee;
+                    Navigation.mainFrame.Navigate(new AdminMainPage());
+                }
+                else if (tempAuth.Role == 2)
+                {
+                    Navigation.ClientSession = tempAuth.Employee;
+                    Navigation.mainFrame.Navigate(new CookMainPage());
+                }
+                else if (tempAuth.Role == 3)
+                {
+                    Navigation.ClientSession = tempAuth.Employee;
+                    Navigation.mainFrame.Navigate(new WaiterMainPage());
+                }
             }
         }
     }));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
@@ -9,5 +10,5 @@ public partial class Shift
 
     public DateTime ShiftDate { get; set; }
 
-    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new List<EmployeesAtShift>();
+    public virtual ICollection<EmployeesAtShift> EmployeesAtShifts { get; set; } = new ObservableCollection<EmployeesAtShift>();
 }

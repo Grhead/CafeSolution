@@ -7,7 +7,7 @@
       d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages.CardPages"
       mc:Ignorable="d"
-      Title="OrderCard" Height="450" Width="800">
+      Title="OrderCard" Height="650" Width="1100">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -28,7 +28,7 @@
                 Text="Номер заказа: "
                 FontSize="18"></TextBlock>
             <TextBlock 
-                Text="{Binding selectedOrder.Id}"
+                Name="TextBlockOrderId"
                 FontSize="18"
                 Margin="0 0 20 0"
                 TextDecorations="Underline"></TextBlock>
@@ -36,7 +36,7 @@
                 Text="Статус заказа: "
                 FontSize="18"></TextBlock>
             <TextBlock
-                Text="{Binding selectedOrder.CookingStatus.Title}"
+                Name="TextBlockStatus"
                 FontSize="18"
                 TextDecorations="Underline">
             </TextBlock>
@@ -44,18 +44,10 @@
         <StackPanel 
             Grid.Row="1"
             VerticalAlignment="Center">
-            <ListBox Name="ListBoxDishes" 
-                     ItemsSource="{Binding DishesListView}"
-                     Height="200"
-                     Width="400">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Id}" />
-                            <TextBlock Text="{Binding Title}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <ListBox 
+                Name="ListBoxDishes" 
+                Height="200"
+                Width="400">
             </ListBox>
             <StackPanel 
                 Orientation="Horizontal"
@@ -63,14 +55,13 @@
                 Margin="0 20 0 0">
                 <ComboBox
                     Width="180"
-                    ItemsSource="{Binding AllCookingStatuses}"
-                    DisplayMemberPath="Name"
-                    SelectedValue="{Binding Path=ComboBoxSelectedItem}">
+                    Name="ComboBoxDishes">
                 </ComboBox>
                 <Button
                     Margin="10 0 0 0"
                     Content="Изменить"
-                    Command="{Binding ChangeStatusBtn}"></Button>
+                    Click="ButtonBase_OnClick">
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace CafeSolutionWPF.Models;
 
@@ -9,5 +10,5 @@ public partial class TablePaymentStatus
 
     public string Title { get; set; } = null!;
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; set; } = new ObservableCollection<Order>();
 }

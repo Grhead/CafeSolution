@@ -5,8 +5,40 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="ShiftList" Height="450" Width="800">
+      Title="ShiftList" Height="650" Width="1100">
     <Grid>
-        <TextBlock Text="1176777711123"></TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <ComboBox
+                Name="ComboBoxShift"
+                Width="180">
+            </ComboBox>
+            <ListBox
+                Margin="0 20 0 0"
+                Name="ListBoxEmployee">
+            </ListBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+        <ComboBox
+            Name="ComboBoxEmployee"
+            Width="180">
+        </ComboBox>
+            <Button
+                Content="Назначить на смену"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Margin="0 20 0 0"
+                Click="ButtonBase_OnClick">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

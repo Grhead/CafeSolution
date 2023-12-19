@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="Pages\FunctionPages\BillPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\FunctionPages\DismissPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\FunctionPages\GetEmployeePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\FunctionPages\OrderCreate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\FunctionPages\BillPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FunctionPages\DismissPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FunctionPages\GetEmployeePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\FunctionPages\OrderCreate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

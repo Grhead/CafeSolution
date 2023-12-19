@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CafeSolutionWPF.FuncEndPoints;
 using CafeSolutionWPF.Models;
 using CafeSolutionWPF.Pages;
@@ -12,8 +13,9 @@ public class CookViewModel: UpdateProperty
         SelfLogin = Navigation.ClientSession.Login;
     }
 
-    private string _selectedPage;
     public string SelfLogin { get; set; }
+    
+    private string _selectedPage;
     public string SelectedPage
     {
         get => _selectedPage;
@@ -26,9 +28,9 @@ public class CookViewModel: UpdateProperty
     
     public Order selectedOrder { get; set; }
 
-    public List<Order> _orderListView;
+    public ObservableCollection<Order> _orderListView;
 
-    public List<Order> OrderListView
+    public ObservableCollection<Order> OrderListView
     {
         get => _orderListView;
         set
@@ -38,9 +40,9 @@ public class CookViewModel: UpdateProperty
         }
     }
 
-    public List<Dish> _dishesListView { get; set; }
+    public ObservableCollection<Dish> _dishesListView { get; set; }
     
-    public List<Dish> DishesListView
+    public ObservableCollection<Dish> DishesListView
     {
         get => _dishesListView;
         set
@@ -50,8 +52,6 @@ public class CookViewModel: UpdateProperty
         }
     }
 
-    public List<TableCookingStatus> AllCookingStatuses { get; set; }
-    
     public TableCookingStatus _comboBoxSelectedItem { get; set; }
     
     public TableCookingStatus ComboBoxSelectedItem
@@ -63,12 +63,21 @@ public class CookViewModel: UpdateProperty
             OnPropertyChanged();
         }
     }
+    
+    public ObservableCollection<TableCookingStatus> AllCookingStatuses { get; set; }
 
     private void GetAllStatuses()
     {
         CookEndPoints newCook = new CookEndPoints();
         AllCookingStatuses = newCook.AllStatuses();
     }
+    
+    private RelayCommand _exit;
+    public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
+    {
+        Navigation.mainFrame.Navigate(new AuthPage());
+        Navigation.ClientSession = null;
+    }));
     
     private RelayCommand _orderList;
     public RelayCommand OrderListBtn => _orderList ?? (_orderList = new RelayCommand(x =>
@@ -79,20 +88,15 @@ public class CookViewModel: UpdateProperty
         OrderListView = newCook.GetAllOrdersPerShift();
     }));
     
-    private RelayCommand _exit;
-    public RelayCommand ExitBtn => _exit ?? (_exit = new RelayCommand(x =>
-    {
-        Navigation.mainFrame.Navigate(new AuthPage());
-        Navigation.ClientSession = null;
-    }));
-    
     private RelayCommand _viewOrder;
     public RelayCommand ViewOrderBtn => _viewOrder ?? (_viewOrder = new RelayCommand(x =>
     {
-        CookEndPoints newCook = new CookEndPoints();
-        Navigation.cookFrame.Navigate(new OrderCard());
-        selectedOrder = Navigation.selectedOrder;
-        SelectedPage = "Карточка заказа";
+        if (Navigation.selectedOrder != null)
+        {
+            Navigation.cookFrame.Navigate(new OrderCard());
+            Navigation.selectedOrder = selectedOrder;   
+            SelectedPage = "Карточка заказа";
+        }
     }));
     
     private RelayCommand _changeStatus;

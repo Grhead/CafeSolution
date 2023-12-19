@@ -7,27 +7,19 @@
       d:DataContext="{d:DesignInstance Type=viewmodels:CookViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="OrderLis" Height="450" Width="800">
+      Title="OrderLis" Height="650" Width="1100">
     <Grid>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <ListBox Name="ListBoxOrders" 
-                     ItemsSource="{Binding OrderListView}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Id}" />
-                            <TextBlock Text="{Binding CookingStatus.Title}" />
-                            <TextBlock Text="{Binding NumberOfCustomers}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <ListBox 
+                Name="ListBoxOrders"
+                Height="250">
             </ListBox>
             <Button 
                 Content="Посмотреть заказ"
                 HorizontalAlignment="Center"
-                Command="{Binding ViewOrderBtn}">
+                Click="ButtonBase_OnClick">
             </Button>
         </StackPanel>
     </Grid>

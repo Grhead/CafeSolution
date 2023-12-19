@@ -1,4 +1,7 @@
+using System.Windows;
 using System.Windows.Controls;
+using CafeSolutionWPF.DTO;
+using CafeSolutionWPF.Pages.CardPages;
 using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages;
@@ -9,5 +12,21 @@ public partial class EmployeeList : Page
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
+        AdminViewModel newAdmin = new AdminViewModel();
+        foreach (var item in newAdmin.GetAllEmployees())
+        {
+            ListBoxOrders.Items.Insert(ListBoxOrders.Items.Count, item);
+        }
+    }
+
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        AdminViewModel newAdmin = new AdminViewModel();
+        if (ListBoxOrders.SelectedItem != null)
+        {
+            Navigation.selectedEmployee = (EmployeeDto)ListBoxOrders.SelectedItem;
+            Navigation.adminFrame.Navigate(new EmployeeSelfCard());
+            newAdmin.SelectedPage = "Карточка сотрудника";
+        }
     }
 }

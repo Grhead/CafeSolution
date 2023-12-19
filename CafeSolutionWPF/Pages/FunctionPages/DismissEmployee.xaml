@@ -7,24 +7,17 @@
       d:DataContext="{d:DesignInstance Type=viewmodels:AdminViewModel}"
       xmlns:local="clr-namespace:CafeSolutionWPF.Pages"
       mc:Ignorable="d"
-      Title="DismissEmployee" Height="450" Width="800">
+      Title="DismissEmployee" Height="650" Width="1100">
     <Grid>
         <StackPanel
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
             <ComboBox
-                ItemsSource="{Binding Path=EmployeeListDismiss}"
-                MinWidth="120"
-                SelectedValue="{Binding Path=EmployeeDismiss}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding SecondName}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
+                Name="ComboBoxDismissEmployee">
             </ComboBox>
             <Button
                 Content="Уволить"
-                Command="{Binding ConfirmDismissBtn}">
+                Click="ButtonBase_OnClick">
             </Button>
         </StackPanel>
     </Grid>

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CafeSolutionWPF.DTO;
 using CafeSolutionWPF.Interfaces;
 using CafeSolutionWPF.Models;
@@ -11,10 +13,10 @@ namespace CafeSolutionWPF.FuncEndPoints;
 
 public class WaiterEndPoints: IWaiterEp
 {
-    public List<Order> GetAllOrdersPerShift(int shiftId, int employeeId)
+    public ObservableCollection<Order> GetAllOrdersPerShift(int shiftId, int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> AllOrdersPerShift = db.Orders
+        ObservableCollection<Order> allOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -26,11 +28,11 @@ public class WaiterEndPoints: IWaiterEp
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
             .Where(x => x.Table.EmployeesAtTables.Any(x => x.EmployeeId == employeeId))
-            .ToList();
-        return AllOrdersPerShift;
+            .ToList());
+        return allOrdersPerShift;
     }
 
-    public Order CreateNewOrder(List<Dish> dishes, int table, int numberOfCustomers, int employeeId)
+    public Order CreateNewOrder(ObservableCollection<Dish> dishes, int table, int numberOfCustomers, int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
         Order newOrder = new Order()
@@ -72,7 +74,7 @@ public class WaiterEndPoints: IWaiterEp
         using DatabaseContext db = new DatabaseContext();
         Order getOrder = GetOrder(orderId);
         decimal? totalAmount = 0;
-        List<Dish> dishesInOrders = new List<Dish>();
+        ObservableCollection<Dish> dishesInOrders = new ObservableCollection<Dish>();
         foreach (var item in getOrder.DishesInOrders)
         {
             totalAmount += item.Dish.Price;
@@ -120,13 +122,15 @@ public class WaiterEndPoints: IWaiterEp
         gfx.DrawString($"Сумма: {resultBill.Amount}", font, XBrushes.Black, new XRect(width, height, 0, 0), XStringFormats.BaseLineLeft);
         height = height + 20;
         width = 0;
+        document.Save(filename);
+        Process.Start(filename);
         return resultBill;
     }
 
-    public List<Order> GetPaidOrdersPerShift(int shiftId, int employeeId)
+    public ObservableCollection<Order> GetPaidOrdersPerShift(int shiftId, int employeeId)
     {
         using DatabaseContext db = new DatabaseContext();
-        List<Order> AllOrdersPerShift = db.Orders
+        ObservableCollection<Order> AllOrdersPerShift = new ObservableCollection<Order>(db.Orders
             .Include(x => x.CookingStatus)
             .Include(x => x.PaymentType)
             .Include(x => x.PaymentStatus)
@@ -138,14 +142,14 @@ public class WaiterEndPoints: IWaiterEp
             .ThenInclude(x => x.EmployeesAtShifts)
             .ThenInclude(x => x.Shift)
             .Where(x => x.PaymentStatusId == 2 && x.Table.EmployeesAtTables.Any(x => x.EmployeeId == employeeId))
-            .ToList();
+            .ToList());
         return AllOrdersPerShift;
     }
     
     // TODO check format output
     public bool CreateReportOrdersPerShift(int shiftId, int employeeId)
     {
-        List<Order> allOrders = GetPaidOrdersPerShift(shiftId, employeeId);
+        ObservableCollection<Order> allOrders = GetPaidOrdersPerShift(shiftId, employeeId);
         try
         {
             var document = new PdfDocument();

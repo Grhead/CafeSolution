@@ -20,6 +20,8 @@ public class Navigation
     }
     
     public static Order selectedOrder { get; set; }
-    public static Employee selectedEmployee { get; set; }
+    public static EmployeeDto selectedEmployee { get; set; }
     public static ShiftDto selectedShift { get; set; }
+    
+    public static Employee createEmployeeCache { get; set; }
 }

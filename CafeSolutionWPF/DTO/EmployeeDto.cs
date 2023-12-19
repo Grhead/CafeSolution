@@ -10,4 +10,5 @@ public class EmployeeDto
     public DateOnly Birthday { get; set; }
     public string Role { get; set; }
     public string Status { get; set; }
+    public string Login { get; set; }
 }

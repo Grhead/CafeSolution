@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CafeSolutionWPF.Models;
 
 namespace CafeSolutionWPF.DTO;
@@ -12,7 +13,7 @@ public class BillDto
     public string PaymentStatus { get; set; }
     
     public string PaymentType { get; set; }
-    public List<Dish> DishesInBill { get; set; }
+    public ObservableCollection<Dish> DishesInBill { get; set; }
     public decimal? Amount { get; set; }
     
 }

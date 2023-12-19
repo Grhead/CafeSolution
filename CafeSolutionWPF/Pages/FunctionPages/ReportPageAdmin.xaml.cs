@@ -3,9 +3,9 @@ using CafeSolutionWPF.ViewModels;
 
 namespace CafeSolutionWPF.Pages;
 
-public partial class EmployeeCard : Page
+public partial class ReportPageAdmin : Page
 {
-    public EmployeeCard()
+    public ReportPageAdmin()
     {
         InitializeComponent();
         DataContext = new AdminViewModel();
